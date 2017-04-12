@@ -1,0 +1,17 @@
+{
+  "name": "",
+  "keywords": ["GAME", "WEB", "WEB Game"],
+  "license": "MIT",
+  "type": "game",
+  "require":
+  {
+    "php": ">=7.0.0",
+    "usmanhalalit/pixie": "2.*@dev"
+  },
+  "autoload":
+  {
+    "psr-4": {
+
+    }
+  }
+}
