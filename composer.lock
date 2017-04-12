@@ -4,7 +4,6 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "4f7313f59d3dfd111d558a39d463de00",
     "content-hash": "35505227de8198e61c2b362d1dc7191c",
     "packages": [
         {
@@ -108,7 +107,7 @@
                 "ioc",
                 "test"
             ],
-            "time": "2013-07-13 19:54:56"
+            "time": "2013-07-13T19:54:56+00:00"
         }
     ],
     "packages-dev": [],

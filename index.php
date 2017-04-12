@@ -1,8 +1,8 @@
 <?php
 
-include('config.php');
+require_once __DIR__ . '/config.php';
 
-$query = QB::table('USERS')
-    ->select('*');
-
-var_dump($query->get());
+//$query = QB::table('USERS')
+//    ->select('*');
+//
+//var_dump($query->get());
