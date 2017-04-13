@@ -8,4 +8,9 @@ class AuthController
     {
         session_start();
     }
+
+    public function checkSession()
+    {
+
+    }
 }
