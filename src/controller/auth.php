@@ -14,6 +14,9 @@
     $us = $query->get();
     $true_pass = $us[0]->pass;
 
+    if(!$us)
+        die("no login");
+
     if ($true_pass == $pass) {
         echo "good";
     } else {
