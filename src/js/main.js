@@ -1,6 +1,3 @@
-/**
- * Created by kadey on 12.04.2017.
- */
 $(document).ready(function () {
     $("#auth_form input[type='submit']").on("click", function () {
         var login = $("#auth_form input[name='login']").val();

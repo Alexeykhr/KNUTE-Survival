@@ -5,15 +5,13 @@
 
 session_start();
 
-if(!isset($_SESSION['login'])){
+if ( ! isset($_SESSION['login']) ) {
     $data = json_decode($_POST['data']);
-    $login = data[0];
-    $pass = data[1];
+    $login = $data[0];
+    $pass = $data[1];
 
-    if(empty($login) || empty($pass)){
-        echo "no data";
-        die;
-    }
+//    if ( empty($login) || empty($pass) )
+//        die("no data");
 
     $query = QB::table('USERS')
         ->select('*')
@@ -21,14 +19,14 @@ if(!isset($_SESSION['login'])){
 
     $us = $query->get();
 
-    if($us['pass'] == ""){
-        echo "no login";
-        die;
-    }
+//    if ( empty($us['pass']) )
+//        die("no login");
 
-    if($us['pass'] == $pass){
+    if ($us['pass'] == $pass) {
         echo "good";
-    }else{
+    } else {
         echo "no pass";
     }
+
+    return $us['pass'] === $pass;
 }
