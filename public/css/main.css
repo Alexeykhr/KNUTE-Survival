@@ -1,0 +1,6 @@
+#auth_form .error{
+    color: red;
+}
+#auth_form .hidden{
+    display: none;
+}
