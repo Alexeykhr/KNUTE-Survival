@@ -4,13 +4,13 @@
  * CREATE A NEW TABLE!!! Pass => VARCHAR(60)
  */
 
-//QB::query('CREATE TABLE IF NOT EXISTS USERS(
-//  id      INT AUTO_INCREMENT NOT NULL,
-//  login   VARCHAR (30)       NOT NULL,
-//  pass    VARCHAR (60)      NOT NULL,
-//  money   INT     (11)    DEFAULT 10,
-//  PRIMARY KEY(ID)
-// )');
+QB::query('CREATE TABLE IF NOT EXISTS USERS(
+  id      INT AUTO_INCREMENT    NOT NULL,
+  login   VARCHAR (30) UNIQUE   NOT NULL,
+  pass    VARCHAR (60)          NOT NULL,
+  money   INT     (11)          DEFAULT 10,
+  PRIMARY KEY(ID)
+ )');
 
 define('KNUTE_DIR', __DIR__ . '/../');
 
