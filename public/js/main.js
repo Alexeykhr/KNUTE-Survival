@@ -9,21 +9,23 @@ $(document).ready(function () {
         $.ajax({
             url: "/src/controller/AjaxController.php",
             type: "POST",
-            data: { 'action': "auth",
-                    'data': [login, pass]},
+            data: {
+                'action': "auth",
+                'data': [login, pass]
+            },
             success: function(json){
                 switch (json){
                     case "no pass":
-                        showFormError("Не верно введенный пароль.", error);
+                        showFormError("Невірно введений пароль.", error);
                         break;
                     case "no data":
-                        showFormError("Введите логин и пароль.", error);
+                        showFormError("Введіть логін і пароль.", error);
                         break;
                     case "no login":
-                        showFormError("Такого логина не существует.", error);
+                        showFormError("Такого логіна не існує.", error);
                         break;
                     case "good":
-                        alert("Вы успешно авторизировались.");
+                        alert("Ви успішно авторизувалися.");
                         error.addClass("hidden");
                         break;
                 }
@@ -38,28 +40,30 @@ $(document).ready(function () {
         var error = $("#registration_form").find(".error");
 
         if(pass.length < 8)
-            showFormError("Минимальная длина пароля 8 символов.", error);
+            showFormError("Мінімальна довжина пароля 8 символів.", error);
         else if(login.length < 5){
-            showFormError("Минимальная длина логина 5 символов.", error);
+            showFormError("Мінімальна довжина логіна 5 символів.", error);
         }
         else
             $.ajax({
                 url: "/src/controller/AjaxController.php",
                 type: "POST",
-                data: { 'action': "registration",
-                    'data': [login, pass]},
+                data: {
+                    'action': "registration",
+                    'data': [login, pass]
+                },
                 success: function(json){
                     switch (json){
                         case "no data":
-                            showFormError("Введите логин и пароль.", error);
+                            showFormError("Введіть логін і пароль.", error);
                             break;
                         default:
-                            alert("Вы успешно зарегестрировались");
+                            alert("Ви успішно зареєструвалися");
                             error.addClass("hidden");
                     }
                 },
                 error: function () {
-                    showFormError("Логин уже занят.", error);
+                    showFormError("Логін вже зайнятий.", error);
                 }
             });
     });

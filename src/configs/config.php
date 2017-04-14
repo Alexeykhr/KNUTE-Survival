@@ -1,9 +1,5 @@
 <?php
 
-/*
- * CREATE A NEW TABLE!!! Pass => VARCHAR(60)
- */
-
 require_once '../../vendor/autoload.php';
 
 $config = [

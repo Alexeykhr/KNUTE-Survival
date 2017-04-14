@@ -1,24 +1,17 @@
-<?php
+<?php if ( ! isset($_POST['data']) ) return;
 
-    $data = $_POST['data'];
-    $login = $data[0];
-    $pass = $data[1];
+use knute\model\UsersModel;
 
-    if ( empty($login) || empty($pass) )
-        die("no data");
+$data = $_POST['data'];
+$login = $data[0];
+$pass = $data[1];
 
-    $query = QB::table('USERS')
-        ->select('pass')
-        ->where("login", "=", $login);
+if ( empty($login) || empty($pass) )
+    die('no data');
 
-    $us = $query->get();
-    $true_pass = $us[0]->pass;
+$user = UsersModel::getUser($login);
 
-    if(!$us)
-        die("no login");
+if( empty($user) )
+    die("no login");
 
-    if ($true_pass == $pass) {
-        echo "good";
-    } else {
-        echo "no pass";
-    }
+echo ( UsersModel::verifyPassword($pass, $user->pass) ) ? 'good' : 'no pass';

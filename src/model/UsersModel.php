@@ -7,18 +7,6 @@ class UsersModel
     const TABLE_USERS = 'users';
 
     /**
-     * Get a hash of the password with BCRYPT.
-     *
-     * @param string $pass
-     *
-     * @return bool|string
-     */
-    public function getHash($pass)
-    {
-        return password_hash($pass, PASSWORD_BCRYPT);
-    }
-
-    /**
      * Verifies that a password matches a hash.
      *
      * @param string $pass
@@ -26,7 +14,7 @@ class UsersModel
      *
      * @return bool
      */
-    public function verifyHash($pass, $hash)
+    public static function verifyPassword($pass, $hash)
     {
         return password_verify($pass, $hash);
     }
@@ -39,19 +27,26 @@ class UsersModel
      *
      * @return int Insert ID
      */
-    public function addUser($login, $pass)
+    public static function addUser($login, $pass)
     {
         return \QB::table(self::TABLE_USERS)->insert([
             'login' => $login,
-            'pass'  => $this->getHash($pass)
+            'pass'  => password_hash($pass, PASSWORD_DEFAULT)
         ]);
     }
 
     /**
+     * Get user by login.
      *
+     * @param string $login
+     *
+     * @return object
      */
-    public function getUser($id)
+    public static function getUser($login)
     {
-
+        return \QB::table('USERS')
+            ->select('pass')
+            ->where('login', '=', $login)
+            ->first();
     }
 }
