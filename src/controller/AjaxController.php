@@ -1,12 +1,9 @@
-<?php
+<?php if( ! isset($_POST['action']) ) return;
 
-if( isset($_POST['action']) ) {
+require_once "../configs/db.php";
 
-    require_once "../configs/config.php";
-
-    try {
-        include $_POST['action'] . '.php';
-    } catch(Exception $ex){
-        header("HTTP/1.1 404 Not Found");
-    }
+try {
+    include $_POST['action'] . '.php';
+} catch(Exception $ex) {
+    header("HTTP/1.1 404 Not Found");
 }

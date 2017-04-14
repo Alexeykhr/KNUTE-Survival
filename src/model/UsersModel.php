@@ -44,7 +44,7 @@ class UsersModel
      */
     public static function getUser($login)
     {
-        return \QB::table('USERS')
+        return \QB::table(self::TABLE_USERS)
             ->select('pass')
             ->where('login', '=', $login)
             ->first();

@@ -9,6 +9,8 @@ $pass = $data[1];
 if ( empty($login) || empty($pass) )
     die('no data');
 
+// If strlen $pass and $login..
+
 $user = UsersModel::getUser($login);
 
 if( empty($user) )
