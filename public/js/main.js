@@ -14,7 +14,8 @@ $(document).ready(function () {
                 'data': [login, pass]
             },
             success: function(json){
-                switch (json){
+                var res = json.split("/");
+                switch (res[0]){
                     case "no pass":
                         showFormError("Невірно введений пароль.", error);
                         break;
@@ -25,8 +26,10 @@ $(document).ready(function () {
                         showFormError("Такого логіна не існує.", error);
                         break;
                     case "good":
-                        alert("Ви успішно авторизувалися.");
                         error.addClass("hidden");
+                        var date = new Date(new Date().getTime() + 60 * 1000 - 3 * 60 * 60 * 1000);//на 1 минуту
+                        document.cookie = "login=" + res[1] + "; path=/; expires=" + date;
+                        location.reload()
                         break;
                 }
             }
@@ -58,8 +61,11 @@ $(document).ready(function () {
                             showFormError("Введіть логін і пароль.", error);
                             break;
                         default:
-                            alert("Ви успішно зареєструвалися");
                             error.addClass("hidden");
+                            var res = json.split("/");
+                            var date = new Date(new Date().getTime() + 60 * 1000 - 3 * 60 * 60 * 1000);//на 1 минуту
+                            document.cookie = "login=" + res[1] + "; path=/; expires=" + date;
+                            location.reload();
                     }
                 },
                 error: function () {

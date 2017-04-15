@@ -5,6 +5,7 @@ namespace knute\model;
 class UsersModel
 {
     const TABLE_USERS = 'users';
+    const TABLE_AUTH = 'auth';
 
     /**
      * Verifies that a password matches a hash.
@@ -45,8 +46,25 @@ class UsersModel
     public static function getUser($login)
     {
         return \QB::table(self::TABLE_USERS)
-            ->select('pass')
+            ->select('*')
             ->where('login', '=', $login)
+            ->first();
+    }
+
+    public static function addToAuth($in_key, $id){
+        \QB::table(self::TABLE_AUTH)->where('id', '=', $id)->delete(); //удаляем старуб запись авторизации пользователя
+
+        //добавляем запись авторизации в таблицу auth
+        return \QB::table(self::TABLE_AUTH)->insert([
+            'id' => $id,
+            'in_key'  => $in_key
+        ]);
+    }
+
+    public static function isAuth($in_key){
+        return \QB::table(self::TABLE_AUTH)
+            ->select('*')
+            ->where('in_key', '=', $in_key)
             ->first();
     }
 }
