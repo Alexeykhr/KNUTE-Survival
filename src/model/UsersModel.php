@@ -51,6 +51,14 @@ class UsersModel
             ->first();
     }
 
+    public static function getUserForID($id)
+    {
+        return \QB::table(self::TABLE_USERS)
+            ->select('*')
+            ->where('id', '=', $id)
+            ->first();
+    }
+
     public static function addToAuth($in_key, $id){
         \QB::table(self::TABLE_AUTH)->where('id', '=', $id)->delete(); //удаляем старуб запись авторизации пользователя
 

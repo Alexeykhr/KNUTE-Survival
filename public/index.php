@@ -4,9 +4,12 @@ require_once "../src/configs/db.php";
 
 define('KNUTE_DIR', __DIR__ . '/../');
 
-if(\knute\model\UsersModel::isAuth($_COOKIE['login']))
-    echo "<div>Hello</div>";                            // Если пользователь авторизован    => показываем контент
-else
+$auth = \knute\model\UsersModel::isAuth($_COOKIE['login']);
+
+if($auth) {
+    $user = \knute\model\UsersModel::getUserForID($auth->id);
+    echo "<div>Hello $user->login</div>";                            // Если пользователь авторизован    => показываем контент
+}else
     require KNUTE_DIR . '/src/view/login/index.html';   // Если пользователь не авторизован => показываем авторизацию/регистрацию
 
 //создать таблицу для ключей
