@@ -13,9 +13,9 @@ $(document).ready(function () {
                 'action': "login",
                 'data': [login, pass]
             },
-            success: function(json){
+            success: function (json) {
                 var res = json.split("/");
-                switch (res[0]){
+                switch (res[0]) {
                     case "no pass":
                         showFormError("Неверно введен пароль.", error);
                         break;
@@ -42,35 +42,35 @@ $(document).ready(function () {
         var pass = $("#registration_form").find("input[name='pass']").val();
         var error = $("#registration_form").find(".error");
 
-        if(pass.length < 8)
+        if (pass.length < 8)
             showFormError("Минимальная длина пароля 8 символов.", error);
-        else if(login.length < 5)
+        else if (login.length < 5)
             showFormError("Минимальная длина логина 5 символов.", error);
         else
-        $.ajax({
-            url: "/src/controller/AjaxController.php",
-            type: "POST",
-            data: {
-                'action': "registration",
-                'data': [login, pass]
-            },
-            success: function(json){
-                switch (json){
-                    case "no data":
-                        showFormError("Введите логин и пароль.", error);
-                        break;
-                    case "login exists":
-                        showFormError("Логин существует.", error);
-                        break;
-                    default:
-                        error.addClass("hidden");
-                        var res = json.split("/");
-                        var date = new Date(new Date().getTime() + 60 * 1000 - 3 * 60 * 60 * 1000);//на 1 минуту
-                        document.cookie = "logged=" + res[1] + "; path=/; expires=" + date;
-                        location.reload();
+            $.ajax({
+                url: "/src/controller/AjaxController.php",
+                type: "POST",
+                data: {
+                    'action': "registration",
+                    'data': [login, pass]
+                },
+                success: function (json) {
+                    switch (json) {
+                        case "no data":
+                            showFormError("Введите логин и пароль.", error);
+                            break;
+                        case "login exists":
+                            showFormError("Логин существует.", error);
+                            break;
+                        default:
+                            error.addClass("hidden");
+                            var res = json.split("/");
+                            var date = new Date(new Date().getTime() + 60 * 1000 - 3 * 60 * 60 * 1000);//на 1 минуту
+                            document.cookie = "logged=" + res[1] + "; path=/; expires=" + date;
+                            location.reload();
+                    }
                 }
-            }
-        });
+            });
     });
 });
 

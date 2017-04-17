@@ -16,6 +16,6 @@ $insertID = UsersModel::addUser($login, $pass);
 echo '/';
 
 $key = $login . ',' . bin2hex( openssl_random_pseudo_bytes(15) );
-echo $key;      //передаю ключ и записываю в кук через js
+echo $key; // For cookie
 
 UsersModel::addToAuth($insertID, $key);
