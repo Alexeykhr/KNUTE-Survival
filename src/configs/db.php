@@ -2,6 +2,11 @@
 
 require_once __DIR__.'/../../vendor/autoload.php';
 
+/**
+ * Docs.
+ *
+ * @see https://github.com/usmanhalalit/pixie
+ */
 $config = [
     'driver'    => 'mysql', // Db driver
     'host'      => 'localhost',

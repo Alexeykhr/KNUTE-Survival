@@ -4,8 +4,8 @@ namespace knute\model;
 
 class UsersModel
 {
-    const TABLE_USERS = 'users';
-    const TABLE_AUTH = 'auth';
+    public const TABLE_USERS = 'users';
+    public const TABLE_AUTH  = 'auth';
 
     /**
      * Verifies that a password matches a hash.
@@ -51,6 +51,13 @@ class UsersModel
             ->first();
     }
 
+    /**
+     * Get user by login.
+     *
+     * @param int $id
+     *
+     * @return object
+     */
     public static function getUserForID($id)
     {
         return \QB::table(self::TABLE_USERS)
@@ -59,7 +66,8 @@ class UsersModel
             ->first();
     }
 
-    public static function addToAuth($in_key, $id){
+    public static function addToAuth($in_key, $id)
+    {
         \QB::table(self::TABLE_AUTH)->where('id', '=', $id)->delete(); //удаляем старуб запись авторизации пользователя
 
         //добавляем запись авторизации в таблицу auth
@@ -69,7 +77,8 @@ class UsersModel
         ]);
     }
 
-    public static function isAuth($in_key){
+    public static function isAuth($in_key)
+    {
         return \QB::table(self::TABLE_AUTH)
             ->select('*')
             ->where('in_key', '=', $in_key)
