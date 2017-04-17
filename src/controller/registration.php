@@ -7,7 +7,10 @@ $login = $data[0];
 $pass = $data[1];
 
 if ( empty($login) || empty($pass) )
-    die("no data");
+    die('no data');
+
+if ( ! empty(UsersModel::getUserByLogin($login)) )
+    die('login exists');
 
 $insertID = UsersModel::addUser($login, $pass);
 echo '/';

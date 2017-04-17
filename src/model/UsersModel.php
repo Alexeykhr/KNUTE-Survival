@@ -81,8 +81,6 @@ class UsersModel
                 'in_key' => $in_key
             ]);
 
-        $_COOKIE['test'] = 123123123;
-
         return \QB::table(self::TABLE_AUTH)->insert([
             'id'     => $id,
             'in_key' => $in_key
