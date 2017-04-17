@@ -9,8 +9,6 @@ $pass = $data[1];
 if ( empty($login) || empty($pass) )
     die('no data');
 
-// If strlen $pass and $auth..
-
 $user = UsersModel::getUserByLogin($login);
 
 if( empty($user) )
@@ -24,4 +22,4 @@ else
 $key = $login . ',' . bin2hex( openssl_random_pseudo_bytes(15) );
 echo $key;      //передаю ключ и записываю в кук через js
 
-UsersModel::addToAuth($key, $user->id);
+UsersModel::addToAuth($user->id, $key);

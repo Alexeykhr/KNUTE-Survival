@@ -28,7 +28,7 @@ $(document).ready(function () {
                     case "good":
                         error.addClass("hidden");
                         var date = new Date(new Date().getTime() + 60 * 1000 - 3 * 60 * 60 * 1000);//на 1 минуту
-                        document.cookie = "auth=" + res[1] + "; path=/; expires=" + date;
+                        document.cookie = "logged=" + res[1] + "; path=/; expires=" + date;
                         location.reload();
                         break;
                 }
@@ -38,15 +38,15 @@ $(document).ready(function () {
 
     // регистрация
     $("#registration_form").find("input[type='submit']").on("click", function () {
-        var login = $("#registration_form").find("input[name='auth']").val();
+        var login = $("#registration_form").find("input[name='login']").val();
         var pass = $("#registration_form").find("input[name='pass']").val();
         var error = $("#registration_form").find(".error");
 
         if(pass.length < 8)
             showFormError("Минимальная длина пароля 8 символов.", error);
-        else if(login.length < 5)
+        else if(login.length < 5) {
             showFormError("Минимальная длина логина 5 символов.", error);
-        else
+        }else
             $.ajax({
                 url: "/src/controller/AjaxController.php",
                 type: "POST",
@@ -63,7 +63,7 @@ $(document).ready(function () {
                             error.addClass("hidden");
                             var res = json.split("/");
                             var date = new Date(new Date().getTime() + 60 * 1000 - 3 * 60 * 60 * 1000);//на 1 минуту
-                            document.cookie = "auth=" + res[1] + "; path=/; expires=" + date;
+                            document.cookie = "logged=" + res[1] + "; path=/; expires=" + date;
                             location.reload();
                     }
                 },

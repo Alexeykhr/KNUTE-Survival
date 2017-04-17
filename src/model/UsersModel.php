@@ -31,7 +31,7 @@ class UsersModel
     public static function addUser($login, $pass)
     {
         return \QB::table(self::TABLE_USERS)->insert([
-            'auth' => $login,
+            'login' => $login,
             'pass'  => password_hash($pass, PASSWORD_DEFAULT)
         ]);
     }
@@ -69,14 +69,22 @@ class UsersModel
     /**
      * Update cookies.
      *
-     * @param string $in_key
      * @param int    $id
+     * @param string $in_key
      *
      * @return object|null
      */
-    public static function addToAuth($in_key, $id)
+    public static function addToAuth($id, $in_key)
     {
-        return \QB::table(self::TABLE_AUTH)->where('id', $id)->update([
+        if ( \QB::table('auth')->where('id', '=', $id)->get() )
+            return \QB::table(self::TABLE_AUTH)->where('id', '=', $id)->update([
+                'in_key' => $in_key
+            ]);
+
+        $_COOKIE['test'] = 123123123;
+
+        return \QB::table(self::TABLE_AUTH)->insert([
+            'id'     => $id,
             'in_key' => $in_key
         ]);
     }
