@@ -10,26 +10,26 @@ $(document).ready(function () {
             url: "/src/controller/AjaxController.php",
             type: "POST",
             data: {
-                'action': "auth",
+                'action': "login",
                 'data': [login, pass]
             },
             success: function(json){
                 var res = json.split("/");
                 switch (res[0]){
                     case "no pass":
-                        showFormError("Невірно введений пароль.", error);
+                        showFormError("Неверно введен пароль.", error);
                         break;
                     case "no data":
-                        showFormError("Введіть логін і пароль.", error);
+                        showFormError("Введите логин и пароль.", error);
                         break;
-                    case "no login":
-                        showFormError("Такого логіна не існує.", error);
+                    case "no auth":
+                        showFormError("Такого логина не существует.", error);
                         break;
                     case "good":
                         error.addClass("hidden");
                         var date = new Date(new Date().getTime() + 60 * 1000 - 3 * 60 * 60 * 1000);//на 1 минуту
-                        document.cookie = "login=" + res[1] + "; path=/; expires=" + date;
-                        location.reload()
+                        document.cookie = "auth=" + res[1] + "; path=/; expires=" + date;
+                        location.reload();
                         break;
                 }
             }
@@ -38,15 +38,14 @@ $(document).ready(function () {
 
     // регистрация
     $("#registration_form").find("input[type='submit']").on("click", function () {
-        var login = $("#registration_form").find("input[name='login']").val();
+        var login = $("#registration_form").find("input[name='auth']").val();
         var pass = $("#registration_form").find("input[name='pass']").val();
         var error = $("#registration_form").find(".error");
 
         if(pass.length < 8)
-            showFormError("Мінімальна довжина пароля 8 символів.", error);
-        else if(login.length < 5){
-            showFormError("Мінімальна довжина логіна 5 символів.", error);
-        }
+            showFormError("Минимальная длина пароля 8 символов.", error);
+        else if(login.length < 5)
+            showFormError("Минимальная длина логина 5 символов.", error);
         else
             $.ajax({
                 url: "/src/controller/AjaxController.php",
@@ -58,18 +57,18 @@ $(document).ready(function () {
                 success: function(json){
                     switch (json){
                         case "no data":
-                            showFormError("Введіть логін і пароль.", error);
+                            showFormError("Введите логин и пароль.", error);
                             break;
                         default:
                             error.addClass("hidden");
                             var res = json.split("/");
                             var date = new Date(new Date().getTime() + 60 * 1000 - 3 * 60 * 60 * 1000);//на 1 минуту
-                            document.cookie = "login=" + res[1] + "; path=/; expires=" + date;
+                            document.cookie = "auth=" + res[1] + "; path=/; expires=" + date;
                             location.reload();
                     }
                 },
                 error: function () {
-                    showFormError("Логін вже зайнятий.", error);
+                    showFormError("Логин уже занят.", error);
                 }
             });
     });

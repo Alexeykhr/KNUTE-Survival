@@ -13,6 +13,6 @@ echo "/";
 $key = $login . ',' . bin2hex( openssl_random_pseudo_bytes(15) );
 echo $key;      //передаю ключ и записываю в кук через js
 
-$user = \knute\model\UsersModel::getUser($login);
+$user = \knute\model\UsersModel::getUserByLogin($login);
 
 \knute\model\UsersModel::addToAuth($key, $user->id);

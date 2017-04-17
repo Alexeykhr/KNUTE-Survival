@@ -14,7 +14,7 @@ QB::query('CREATE TABLE IF NOT EXISTS auth(
 
 QB::query('CREATE TABLE IF NOT EXISTS users(
 	id       INT AUTO_INCREMENT    NOT NULL,
-	login    VARCHAR (30) UNIQUE   NOT NULL,
+	auth    VARCHAR (30) UNIQUE   NOT NULL,
 	pass     VARCHAR (60)          NOT NULL,
 	money    INT     (11)          DEFAULT 10,
 	PRIMARY KEY(ID)

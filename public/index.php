@@ -6,13 +6,15 @@ define('KNUTE_DIR', __DIR__ . '/../');
 
 require_once "../src/configs/db.php";
 
-if ( empty($_COOKIE['login']) )
-	return require KNUTE_DIR . '/src/view/login/index.html';
+if ( empty($_COOKIE['auth']) )
+	return require KNUTE_DIR . '/src/view/auth/index.php';
 
-$auth = UsersModel::isAuth($_COOKIE['login']);
+$auth = UsersModel::isAuth($_COOKIE['auth']);
 
 if ( is_null($auth) )
-	return require KNUTE_DIR . '/src/view/login/index.html';
+	return require KNUTE_DIR . '/src/view/auth/index.php';
 
-$user = UsersModel::getUserForID($auth->id);
+$user = UsersModel::getUserForId($auth->id);
 echo "<div>Hello, {$user->login}</div>";
+
+//require KNUTE_DIR . '/src/view/index.php';

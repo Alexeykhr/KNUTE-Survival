@@ -4,8 +4,8 @@ namespace knute\model;
 
 class UsersModel
 {
-    public const TABLE_USERS = 'users';
-    public const TABLE_AUTH  = 'auth';
+    const TABLE_USERS = 'users';
+    const TABLE_AUTH  = 'auth';
 
     /**
      * Verifies that a password matches a hash.
@@ -31,19 +31,19 @@ class UsersModel
     public static function addUser($login, $pass)
     {
         return \QB::table(self::TABLE_USERS)->insert([
-            'login' => $login,
+            'auth' => $login,
             'pass'  => password_hash($pass, PASSWORD_DEFAULT)
         ]);
     }
 
     /**
-     * Get user by login.
+     * Get user by auth.
      *
      * @param string $login
      *
-     * @return object
+     * @return object|null
      */
-    public static function getUser($login)
+    public static function getUserByLogin($login)
     {
         return \QB::table(self::TABLE_USERS)
             ->select('*')
@@ -52,13 +52,13 @@ class UsersModel
     }
 
     /**
-     * Get user by login.
+     * Get user by id.
      *
      * @param int $id
      *
-     * @return object
+     * @return object|null
      */
-    public static function getUserForID($id)
+    public static function getUserForId($id)
     {
         return \QB::table(self::TABLE_USERS)
             ->select('*')
@@ -66,17 +66,28 @@ class UsersModel
             ->first();
     }
 
+    /**
+     * Update cookies.
+     *
+     * @param string $in_key
+     * @param int    $id
+     *
+     * @return object|null
+     */
     public static function addToAuth($in_key, $id)
     {
-        \QB::table(self::TABLE_AUTH)->where('id', '=', $id)->delete(); //удаляем старуб запись авторизации пользователя
-
-        //добавляем запись авторизации в таблицу auth
-        return \QB::table(self::TABLE_AUTH)->insert([
-            'id' => $id,
-            'in_key'  => $in_key
+        return \QB::table(self::TABLE_AUTH)->where('id', $id)->update([
+            'in_key' => $in_key
         ]);
     }
 
+    /**
+     * Find the key in DB.
+     *
+     * @param string $in_key
+     *
+     * @return object|null
+     */
     public static function isAuth($in_key)
     {
         return \QB::table(self::TABLE_AUTH)

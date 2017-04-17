@@ -9,12 +9,12 @@ $pass = $data[1];
 if ( empty($login) || empty($pass) )
     die('no data');
 
-// If strlen $pass and $login..
+// If strlen $pass and $auth..
 
-$user = UsersModel::getUser($login);
+$user = UsersModel::getUserByLogin($login);
 
 if( empty($user) )
-    die("no login");
+    die("no auth");
 
 if( UsersModel::verifyPassword($pass, $user->pass) )
     echo 'good/';
