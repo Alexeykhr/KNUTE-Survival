@@ -17,4 +17,4 @@ if ( is_null($auth) )
 $user = UsersModel::getUserForId($auth->id);
 echo "<div>Hello, {$user->login}</div>";
 
-//require KNUTE_DIR . '/src/view/index.php';
+require KNUTE_DIR . '/src/view/index.php';

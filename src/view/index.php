@@ -1,3 +1,3 @@
 <?php
 
-echo 'view.index.php';
+require_once "lvl1/index.php";

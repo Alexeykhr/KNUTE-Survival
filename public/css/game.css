@@ -1,0 +1,21 @@
+.hidden{
+    display: none;
+}
+.right{
+
+}
+.down{
+    transform: rotate(90deg);
+}
+.left{
+    transform: rotate(180deg);
+}
+.up{
+    transform: rotate(-90deg);
+}
+img{
+    transition: all 1s ease;
+}
+#player{
+    position: absolute;
+}

@@ -4,6 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
+    "hash": "5f27eb97217a78fb3f3462d02769b0af",
     "content-hash": "35505227de8198e61c2b362d1dc7191c",
     "packages": [
         {
@@ -60,7 +61,7 @@
                 "sql",
                 "sqlite"
             ],
-            "time": "2016-04-12T11:50:49+00:00"
+            "time": "2016-04-12 11:50:49"
         },
         {
             "name": "usmanhalalit/viocon",
@@ -107,7 +108,7 @@
                 "ioc",
                 "test"
             ],
-            "time": "2013-07-13T19:54:56+00:00"
+            "time": "2013-07-13 19:54:56"
         }
     ],
     "packages-dev": [],
