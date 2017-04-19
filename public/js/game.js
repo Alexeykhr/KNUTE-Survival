@@ -81,8 +81,8 @@ $(document).ready(function () {
 });
 
 function goes(when){
-    var maxLeftOffset = $('#game').width() - $('#player').width() + 30;
-    var maxTopOffset = $('#game').height() - $('#player').height() + 20;
+    // var maxLeftOffset = $('#game').width() - $('#player').width() + 30;
+    // var maxTopOffset = $('#game').height() - $('#player').height() + 20;
     var offsetTop = $("#player").position().top;
     var offsetLeft = $("#player").position().left;
     if(when == "right"){
@@ -105,11 +105,11 @@ function goes(when){
     )
         $("#player").css("left",offsetLeft);
 
-    var scrollX = $("#player").position().top - $('#display').height()/2 + $("#player").height();
-    var scrollY = $("#player").position().left - $('#display').width()/2 + $("#player").width();
+    var scrollTop = $("#player").position().top - $('#display').height()/2 + $("#player").height();
+    var scrollLeft = $("#player").position().left - $('#display').width()/2 + $("#player").width();
 
-    $('#display').animate({ scrollTop:  scrollX}, 0);
-    $('#display').animate({ scrollLeft: scrollY }, 0);
+    $('#display').animate({ scrollTop:  scrollTop}, 0);
+    $('#display').animate({ scrollLeft: scrollLeft }, 0);
 
 }
 
