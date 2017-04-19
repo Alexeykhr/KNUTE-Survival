@@ -15,16 +15,32 @@
 }
 img{
     transition: all 1s ease;
+    width: 100%;
+    height: 100%;
 }
 #player{
+    width: 110px;
+    height: 110px;
     position: absolute;
-    top: -10px;
-    left: -20px;
+    top: 100px;
+    left: 90px;
 }
 #game{
     position: relative;
     width: 1000px;
     height: 800px;
     border: 1px solid lawngreen;
+    background-color: #764E2C;
+}
+#display{
+    width: 1000px;
+    height: 800px;
+    overflow: hidden;
     margin: 150px auto;
+}
+.box{
+    background-color: #B0C4DE;
+    position: absolute;
+    width: 110px;
+    height: 110px;
 }
