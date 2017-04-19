@@ -18,4 +18,13 @@ img{
 }
 #player{
     position: absolute;
+    top: -10px;
+    left: -20px;
+}
+#game{
+    position: relative;
+    width: 1000px;
+    height: 800px;
+    border: 1px solid lawngreen;
+    margin: 150px auto;
 }
