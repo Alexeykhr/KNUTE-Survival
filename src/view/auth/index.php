@@ -8,11 +8,9 @@
 
     <title>Authorization</title>
 
-    <link rel="stylesheet" href="/public/css/login.css">
-
-    <!-- Шрифт возможен для название проекта -->
-    <link href="https://fonts.googleapis.com/css?family=Fontdiner+Swanky" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Quantico" rel="stylesheet">
+    <link rel="stylesheet" href="/public/css/auth/login.css?1516">
+    <link href="/public/fonts/Lato.ttf">
+    <link href="/public/fonts/Roboto.ttf">
 
     <script type="text/javascript" src="/public/js/jquery.js"></script>
     <script type="text/javascript" src="/public/js/auth/script.js"></script>
@@ -29,7 +27,7 @@
                 <input type="text" name="login" placeholder="Login">
                 <input type="password" name="pass" placeholder="Password">
                 <input type="submit" value="Sign In">
-                <p class="error hidden"></p>
+                <span class="error hidden"></span>
             </div>
 
             <div id="registration_form">
@@ -37,14 +35,14 @@
                 <input type="text" name="login" placeholder="Login">
                 <input type="password" name="pass" placeholder="Password">
                 <input type="submit" value="Sign Up">
-                <p class="error hidden"></p>
+                <span class="error hidden"></span>
             </div>
         </div>
     </div>
 </div>
 
 <div id="particles-js"></div>
-<script src="http://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+<script type="text/javascript" src="/public/js/libs/particles.min.js"></script>
 <script type="text/javascript" src="/public/js/auth/particles.js"></script>
 
 </body>
