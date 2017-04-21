@@ -1,150 +1,156 @@
+var module = angular.module('game', []);
 
-var lvl_map = [[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-    [1,0,1,0,0,0,0,0,1,0,0,0,1,0,0,0,0,1],
-    [1,0,1,1,1,0,1,1,1,0,1,1,1,0,1,1,1,1],
-    [1,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,1],
-    [1,0,1,0,1,1,1,1,1,0,1,0,1,1,1,1,0,1],
-    [1,0,1,0,0,0,0,0,1,0,1,0,0,0,1,1,0,1],
-    [1,0,1,1,1,0,1,1,1,0,1,1,1,0,1,1,0,1],
-    [1,0,0,0,1,0,0,0,1,0,0,0,1,0,1,1,0,1],
-    [1,1,1,0,1,0,1,0,1,1,1,0,1,0,1,1,0,1],
-    [1,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,1],
-    [1,0,1,1,1,1,1,1,1,0,1,1,1,1,1,1,0,1],
-    [1,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,1],
-    [1,1,1,0,1,0,1,1,1,0,1,0,1,1,1,1,1,1],
-    [1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1],
-    [1,0,1,1,0,1,1,1,0,1,0,0,1,0,0,0,0,1],
-    [1,0,1,0,0,1,0,0,0,1,1,0,1,1,1,1,0,1],
-    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]];
+module.controller('mainCtrl', function ($scope) {
+     $scope.map = new lvl1();
+     $scope.player = new Player(110,110,110,110,10,"down");
+     $scope.go = false;
 
-$(document).ready(function () {
-    var player = $("#player");
-    var game = $("#game");
+     console.log($scope.map);
 
-    var size_map = lvl_map.length * $(player).width();
+     $scope.keyDown = function (event) {
+         switch (event.which){
+             case 87:    //W;
+                 $scope.goes("up");
+                 break;
+             case 83:    //S
+                 $scope.goes("down");
+                 break;
+             case 65:    //A
+                 $scope.goes("left");
+                 break;
+             case 68:    //D
+                 $scope.goes("right");
+                 break;
+         }
+     };
+     $scope.keyUp = function () {
+         $scope.go = false;
+     };
 
-    $(game).width(size_map);
-    $(game).height(size_map);
+     $scope.goes = function (vector) {
+         $scope.go = true;
+         console.log($scope.touchPlMp());
+         switch (vector){
+             case "up":
+                 $scope.player.posY -= $scope.player.speed;
+                 if($scope.touchPlMp())
+                     $scope.player.posY += $scope.player.speed;
+                 $scope.player.rot = "up";
+                 break;
+             case "down":
+                 $scope.player.posY += $scope.player.speed;
+                 if($scope.touchPlMp())
+                     $scope.player.posY -= $scope.player.speed;
+                 $scope.player.rot = "down";
+                 break;
+             case "left":
+                 $scope.player.posX -= $scope.player.speed;
+                 if($scope.touchPlMp())
+                     $scope.player.posX += $scope.player.speed;
+                 $scope.player.rot = "left";
+                 break;
+             case "right":
+                 $scope.player.posX += $scope.player.speed;
+                 if($scope.touchPlMp())
+                     $scope.player.posX -= $scope.player.speed;
+                 $scope.player.rot = "right";
+                 break;
+         }
+     };
 
-    for(var i = 0; i < lvl_map.length; i++)
-        for(var j = 0; j < lvl_map.length; j++)
-            if(lvl_map[i][j]){
-                $(game).append("<div class='box' style='top:" + i * player.width() + "; left: " + j * player.width() + ";'></div>");
-            }
+     $scope.touchObj = function (obj1, obj2) {
+         var gap = 20;
 
+         return (obj1.posX + $scope.player.gap + gap < obj2.posX + obj2.width && obj1.posY + $scope.player.gap + gap < obj2.posY + obj2.height &&
+                 obj1.posX + obj1.width > obj2.posX - $scope.player.gap + gap && obj1.posY + obj1.height > obj2.posY - $scope.player.gap + gap);
+     };
 
-    $('body').on('keydown', function(event){
-        if (event.which  == 68){
-            $("#player img").removeClass("up");
-            $("#player img").removeClass("down");
-            $("#player img").removeClass("left");
-            $("#player img").addClass("right");
-            goes("right");
-            $("#player #go").removeClass("hidden");
-            $("#player #stop").addClass("hidden");
-        }
-        if (event.which  == 87){
-            $("#player img").removeClass("left");
-            $("#player img").removeClass("down");
-            $("#player img").removeClass("right");
-            $("#player img").addClass("up");
-            goes("up");
-            $("#player #go").removeClass("hidden");
-            $("#player #stop").addClass("hidden");
-        }
-        if (event.which  == 65){
-            $("#player img").removeClass("up");
-            $("#player img").removeClass("down");
-            $("#player img").removeClass("right");
-            $("#player img").addClass("left");
-            goes("left");
-            $("#player #go").removeClass("hidden");
-            $("#player #stop").addClass("hidden");
-        }
-        if (event.which  == 83){
-            $("#player img").removeClass("up");
-            $("#player img").removeClass("left");
-            $("#player img").removeClass("right");
-            $("#player img").addClass("down");
-            goes("down");
-            $("#player #go").removeClass("hidden");
-            $("#player #stop").addClass("hidden");
-        }
+     $scope.touchPlMp = function () {
+         for(var col in $scope.map.lvl)
+             if($scope.touchObj($scope.player, $scope.map.lvl[col]))
+                 return true;
+         return false;
+     };
 
-    });
+     $scope.$watch('player.posY', function () {
+         var scrollTop = $scope.player.posY - $('#display').height()/2 + $scope.player.height;
+         $('#display').animate({ scrollTop:  scrollTop}, 0);
+     });
 
-    $(document).on('keyup', function(){
-        $("#player #go").addClass("hidden");
-        $("#player #stop").removeClass("hidden");
+    $scope.$watch('player.posX', function () {
+        var scrollLeft = $scope.player.posX - $('#display').width()/2 + $scope.player.width;
+        $('#display').animate({ scrollLeft: scrollLeft }, 0);
     });
 });
 
-function goes(when){
-    // var maxLeftOffset = $('#game').width() - $('#player').width() + 30;
-    // var maxTopOffset = $('#game').height() - $('#player').height() + 20;
-    var offsetTop = $("#player").position().top;
-    var offsetLeft = $("#player").position().left;
-    if(when == "right"){
-        offsetLeft += 10;
-    }
-    if(when == "left"){
-        offsetLeft -= 10;
-    }
-    if(when == "down"){
-        offsetTop += 10;
-    }
-    if(when == "up"){
-        offsetTop -= 10;
-    }
+$(document).ready(function () {
+    var elem_left = $("#game").offset().left;
+    var elem_top = $("#game").offset().top;
 
-    if(test(when)// && maxTopOffset >= offsetTop && offsetTop > -20
-    )
-        $("#player").css("top",offsetTop);
-    if(test(when) //&& maxLeftOffset >= offsetLeft && offsetLeft > -30
-    )
-        $("#player").css("left",offsetLeft);
+   $("#game").on("mousedown", function (e) {
+       var sctollLeft = $('#display').scrollLeft();
+       var sctollTop = $('#display').scrollTop();
 
-    var scrollTop = $("#player").position().top - $('#display').height()/2 + $("#player").height();
-    var scrollLeft = $("#player").position().left - $('#display').width()/2 + $("#player").width();
+       var posX = e.pageX - elem_left + sctollLeft;
+       var posY = e.pageY - elem_top + sctollTop;
+       $(this).append("<div class='new_block'></div>");
+       var res = $(".new_block");
+       $(res).css('top', posY);
+       $(res).css('left', posX);
 
-    $('#display').animate({ scrollTop:  scrollTop}, 0);
-    $('#display').animate({ scrollLeft: scrollLeft }, 0);
+       $("#game").on("mousemove", function (e2) {
 
+           sctollLeft = $('#display').scrollLeft();
+           sctollTop = $('#display').scrollTop();
+
+           var posX2 = e2.pageX - elem_left + sctollLeft;
+           var posY2 = e2.pageY - elem_top + sctollTop;
+           if (posX2 > posX && posY2 < posY) {
+               $(".new_block").width(posX2 - posX);
+               $(".new_block").css('top', posY2);
+               $(".new_block").css('left', posX);
+               $(".new_block").height(posY - posY2);
+           } else if (posX2 < posX && posY2 < posY) {
+               $(".new_block").css('top', posY2);
+               $(".new_block").css('left', posX2);
+               $(".new_block").width(posX - posX2);
+               $(".new_block").height(posY - posY2);
+           } else if (posX2 < posX && posY2 > posY) {
+               $(".new_block").css('left', posX2);
+               $(".new_block").css('top', posY);
+               $(".new_block").width(posX - posX2);
+               $(".new_block").height(posY2 - posY);
+           } else if (posX2 > posX && posY2 > posY) {
+               $(".new_block").width(posX2 - posX);
+               $(".new_block").height(posY2 - posY);
+               $(".new_block").css('left', posX);
+               $(".new_block").css('top', posY);
+           } else {
+               $(".new_block").width(0);
+               $(".new_block").height(0);
+           }
+
+           $("#game").on("mouseup", function () {
+               $(res).removeClass("new_block");
+               $(res).addClass("in_lvl");
+           });
+       });
+   });
+});
+
+function Collision(posX, posY, width, height) {
+    this.posX = posX;
+    this.posY = posY;
+    this.width = width;
+    this.height = height;
 }
 
-function test(when){
-    var gap = 20;
-
-    var x = $("#player").position().left;
-    var y = $("#player").position().top;
-    var player_size = $("#player").width();
-
-    var x_normalize = Math.round(x / 110).toFixed(0);
-    var y_normalize = Math.round(y / 110).toFixed(0);
-
-    switch (when){
-        case "right":
-            x_normalize++;
-            if(x_normalize*player_size+gap-player_size < x && lvl_map[y_normalize][x_normalize])
-                return false;
-            break;
-        case "left":
-            x_normalize--;
-            if(x_normalize*player_size+player_size-gap > x && lvl_map[y_normalize][x_normalize])
-                return false;
-            break;
-        case "up":
-            y_normalize--;
-            if(y_normalize*player_size+player_size-gap > y && lvl_map[y_normalize][x_normalize])
-                return false;
-            break;
-        case "down":
-            y_normalize++;
-            if(y_normalize*player_size+gap-player_size < y && lvl_map[y_normalize][x_normalize])
-                return false;
-            break;
-    }
-
-    return true;
+function Player(posX, posY, width, height, speed, rot) {
+    this.posX = posX;
+    this.posY = posY;
+    this.width = width;
+    this.height = height;
+    this.gap = 20;
+    this.speed = speed;
+    this.rot = rot;
 }

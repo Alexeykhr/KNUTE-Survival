@@ -18,29 +18,47 @@ img{
     width: 100%;
     height: 100%;
 }
-#player{
-    width: 110px;
-    height: 110px;
-    position: absolute;
-    top: 100px;
-    left: 90px;
-}
 #game{
     position: relative;
     width: 1000px;
     height: 800px;
     border: 1px solid lawngreen;
     background-color: #764E2C;
+
+    /*for create maps*/
+    cursor: crosshair;
 }
 #display{
     width: 1000px;
     height: 800px;
     overflow: hidden;
     margin: 150px auto;
+
+    /*for create maps*/
+    overflow: scroll;
 }
 .box{
     background-color: #B0C4DE;
     position: absolute;
-    width: 110px;
-    height: 110px;
+}
+#player{
+    position: absolute;
+}
+
+.new_block{
+    position: absolute;
+    border: 1px black dotted;
+    background: azure;
+}
+.in_lvl{
+    position: absolute;
+    border: 1px black dashed;
+    background: azure;
+}
+
+*{
+    -moz-user-select: none; /* Mozilla Firefox */
+    -ms-user-select: none; /* Internet Explorer (не поддерживается) */
+    -o-user-select: none; /* Opera Presto (не поддерживается) */
+    -webkit-user-select: none; /* Google Chrome, Opera Next, Safari */
 }

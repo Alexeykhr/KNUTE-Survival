@@ -27,7 +27,7 @@ $(document).ready(function () {
                         break;
                     case "good":
                         error.addClass("hidden");
-                        var date = new Date(new Date().getTime() + 60 * 1000 - 3 * 60 * 60 * 1000);//на 1 минуту
+                        var date = new Date(new Date().getTime() - (60 * 1000 * 60 - 3 * 60 * 60 * 1000));//на 1 минуту \\удалить 60
                         document.cookie = "logged=" + res[1] + "; path=/; expires=" + date;
                         location.reload();
                         break;
