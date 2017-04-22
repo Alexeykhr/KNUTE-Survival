@@ -13,16 +13,16 @@ module.controller('mainCtrl', ['$scope', '$http', function ($scope, $http) {
 
     $scope.keyDown = function (event) {
         switch (event.which){
-            case 87:    //W;
+            case 87:    // W
                 $scope.goes("up");
                 break;
-            case 83:    //S
+            case 83:    // S
                 $scope.goes("down");
                 break;
-            case 65:    //A
+            case 65:    // A
                 $scope.goes("left");
                 break;
-            case 68:    //D
+            case 68:    // D
                 $scope.goes("right");
                 break;
         }

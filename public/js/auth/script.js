@@ -39,7 +39,7 @@ $(document).ready(function () {
     });
 
     // Registration
-    $("#registration_form").find("input[type='submit']").on("click", function () {
+    $("#registration_form").find("input[type='submit']").on("click", function (event) {
         var login = $("#registration_form").find("input[name='login']").val();
         var pass = $("#registration_form").find("input[name='pass']").val();
         var error = $("#registration_form").find(".error");
