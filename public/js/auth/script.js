@@ -1,10 +1,12 @@
 $(document).ready(function () {
 
-    // авторизация
-    $('#auth_form').find("input[type='submit']").on("click", function () {
+    // Authorization
+    $('#auth_form').find("input[type='submit']").on("click", function (event) {
         var login = $("#auth_form").find("input[name='login']").val();
         var pass = $("#auth_form").find("input[name='pass']").val();
         var error = $("#auth_form").find(".error");
+
+        event.preventDefault();
 
         $.ajax({
             url: "/src/controller/AjaxController.php",
@@ -36,16 +38,18 @@ $(document).ready(function () {
         });
     });
 
-    // регистрация
+    // Registration
     $("#registration_form").find("input[type='submit']").on("click", function () {
         var login = $("#registration_form").find("input[name='login']").val();
         var pass = $("#registration_form").find("input[name='pass']").val();
         var error = $("#registration_form").find(".error");
 
-        if (pass.length < 8)
-            showFormError("Минимальная длина пароля 8 символов.", error);
-        else if (login.length < 5)
+        event.preventDefault();
+
+        if (login.length < 5)
             showFormError("Минимальная длина логина 5 символов.", error);
+        else if (pass.length < 8)
+            showFormError("Минимальная длина пароля 8 символов.", error);
         else
             $.ajax({
                 url: "/src/controller/AjaxController.php",
@@ -58,6 +62,12 @@ $(document).ready(function () {
                     switch (json) {
                         case "no data":
                             showFormError("Введите логин и пароль.", error);
+                            break;
+                        case "login len":
+                            showFormError("Минимальная длина логина 5 символов.", error);
+                            break;
+                        case "pass len":
+                            showFormError("Минимальная длина пароля 8 символов.", error);
                             break;
                         case "login exists":
                             showFormError("Логин существует.", error);

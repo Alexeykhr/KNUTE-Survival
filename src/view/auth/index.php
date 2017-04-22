@@ -8,11 +8,11 @@
 
     <title>Authorization</title>
 
-    <link rel="stylesheet" href="/public/css/auth/login.css?1516">
+    <link rel="stylesheet" href="/public/css/auth/login.css?1116">
     <link href="/public/fonts/Lato.ttf">
     <link href="/public/fonts/Roboto.ttf">
 
-    <script type="text/javascript" src="/public/js/jquery.js"></script>
+    <script type="text/javascript" src="/public/js/libs/jquery.js"></script>
     <script type="text/javascript" src="/public/js/auth/script.js"></script>
 </head>
 <body>
@@ -22,21 +22,21 @@
         <div class="container">
             <img src="/public/img/logo.png">
 
-            <div id="auth_form">
+            <form id="auth_form">
                 <h2>Authorization</h2>
                 <input type="text" name="login" placeholder="Login">
                 <input type="password" name="pass" placeholder="Password">
                 <input type="submit" value="Sign In">
                 <span class="error hidden"></span>
-            </div>
+            </form>
 
-            <div id="registration_form">
+            <form id="registration_form">
                 <h2>Registration</h2>
                 <input type="text" name="login" placeholder="Login">
                 <input type="password" name="pass" placeholder="Password">
                 <input type="submit" value="Sign Up">
                 <span class="error hidden"></span>
-            </div>
+            </form>
         </div>
     </div>
 </div>

@@ -9,6 +9,12 @@ $pass = $data[1];
 if ( empty($login) || empty($pass) )
     die('no data');
 
+if ( strlen($login) < 5 )
+    die('login len');
+
+if ( strlen($pass) < 8 )
+    die('pass len');
+
 if ( ! empty(UsersModel::getUserByLogin($login)) )
     die('login exists');
 
