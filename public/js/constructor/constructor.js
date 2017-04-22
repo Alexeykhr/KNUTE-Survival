@@ -1,17 +1,21 @@
 var module = angular.module('app', []);
 
 module.controller('constr', ['$scope', '$http', function ($scope, $http) {
-    // $.when($.ajax({
-    //     url: "/public/store/xmls/lvl1.xml",
-    //     type: "POST"
-    // })).done(function(a1) {
-    //     $scope.map = parseLvl(a1);
-    //     console.log($scope.map);
-    // });
+
+    $scope.changelvl = null;
     $scope.map = [];
     // $scope.player = new Player(110,110,110,110,10,"down");
     $scope.player = [];
     $scope.go = false;
+    // $scope.lvls = [];
+
+    $.when($.ajax({
+            url: "/public/store/config.xml",
+            type: "POST"})).done(function(a1) {
+        $scope.lvls = parseLvlsConfig(a1);
+        console.log("lvls", $scope.lvls.lvls);
+        updateScope();
+    });
 
     $scope.keyDown = function (event) {
         switch (event.which){
@@ -32,6 +36,90 @@ module.controller('constr', ['$scope', '$http', function ($scope, $http) {
     $scope.keyUp = function () {
         $scope.go = false;
     };
+
+    $(document).ready(function (){
+        var mouseDown = false;
+        var mouseUp = true;
+
+        var elem_left = $("#game").offset().left;
+        var elem_top = $("#game").offset().top;
+
+        var scrollLeft = $('#display').scrollLeft();
+        var scrollTop = $('#display').scrollTop();
+
+        var posX;
+        var posY;
+
+        var res = null;
+
+        $("#game").on("mousedown", function (e) {
+            if(mouseUp) {
+                mouseUp = false;
+                mouseDown = true;
+                posX = e.pageX - elem_left + scrollLeft;
+                posY = e.pageY - elem_top + scrollTop;
+
+                $(this).append("<div class='new_block'></div>");
+                res = $(".new_block");
+                $(res).css('top', posY);
+                $(res).css('left', posX);
+            }
+        });
+
+        $("#game").on("mousemove", function (e2) {
+            if(mouseDown) {
+                scrollLeft = $('#display').scrollLeft();
+                scrollTop = $('#display').scrollTop();
+
+                var posX2 = e2.pageX - elem_left + scrollLeft;
+                var posY2 = e2.pageY - elem_top + scrollTop;
+                if (posX2 > posX && posY2 < posY) {
+                    $(".new_block").width(posX2 - posX);
+                    $(".new_block").css('top', posY2);
+                    $(".new_block").css('left', posX);
+                    $(".new_block").height(posY - posY2);
+                } else if (posX2 < posX && posY2 < posY) {
+                    $(".new_block").css('top', posY2);
+                    $(".new_block").css('left', posX2);
+                    $(".new_block").width(posX - posX2);
+                    $(".new_block").height(posY - posY2);
+                } else if (posX2 < posX && posY2 > posY) {
+                    $(".new_block").css('left', posX2);
+                    $(".new_block").css('top', posY);
+                    $(".new_block").width(posX - posX2);
+                    $(".new_block").height(posY2 - posY);
+                } else if (posX2 > posX && posY2 > posY) {
+                    $(".new_block").width(posX2 - posX);
+                    $(".new_block").height(posY2 - posY);
+                    $(".new_block").css('left', posX);
+                    $(".new_block").css('top', posY);
+                } else {
+                    $(".new_block").width(0);
+                    $(".new_block").height(0);
+                }
+            }
+        });
+
+        $("#game").on("mouseup", function () {
+            if(mouseDown) {
+                var posX = $(res).css('left');
+                var posY = $(res).css('top');
+
+                posX = posX.substr(0, posX.length - 2);
+                posY = posY.substr(0, posY.length - 2);
+
+                $scope.map.collision.push({
+                    "posX": posX,
+                    "posY": posY,
+                    "width": $(res).width(),
+                    "height": $(res).height()
+                });
+                mouseUp = true;
+                updateScope();
+                $(res).remove();
+            }
+        });
+    });
 
     $scope.goes = function (vector) {
         $scope.go = true;
@@ -90,63 +178,21 @@ module.controller('constr', ['$scope', '$http', function ($scope, $http) {
         var scrollLeft = $scope.player.posX - $('#display').width()/2 + $scope.player.width;
         $('#display').animate({ scrollLeft: scrollLeft }, 0);
     });
+
+    $scope.$watch('changelvl', function (newValue) {
+        console.log(newValue);
+        if(newValue != null || newValue != undefined)
+            $.when($.ajax({
+                url: "/public/store/xmls/"+newValue,
+                type: "POST"
+            })).done(function(a1) {
+                $scope.map = parseLvl(a1);
+                console.log($scope.map);
+                updateScope();
+            });
+    });
 }]);
 
-$(document).ready(function () {
-
-    var elem_left = $("#game").offset().left;
-    var elem_top = $("#game").offset().top;
-
-    $("#game").on("mousedown", function (e) {
-        var sctollLeft = $('#display').scrollLeft();
-        var sctollTop = $('#display').scrollTop();
-
-        var posX = e.pageX - elem_left + sctollLeft;
-        var posY = e.pageY - elem_top + sctollTop;
-        $(this).append("<div class='new_block'></div>");
-        var res = $(".new_block");
-        $(res).css('top', posY);
-        $(res).css('left', posX);
-
-        $("#game").on("mousemove", function (e2) {
-
-            sctollLeft = $('#display').scrollLeft();
-            sctollTop = $('#display').scrollTop();
-
-            var posX2 = e2.pageX - elem_left + sctollLeft;
-            var posY2 = e2.pageY - elem_top + sctollTop;
-            if (posX2 > posX && posY2 < posY) {
-                $(".new_block").width(posX2 - posX);
-                $(".new_block").css('top', posY2);
-                $(".new_block").css('left', posX);
-                $(".new_block").height(posY - posY2);
-            } else if (posX2 < posX && posY2 < posY) {
-                $(".new_block").css('top', posY2);
-                $(".new_block").css('left', posX2);
-                $(".new_block").width(posX - posX2);
-                $(".new_block").height(posY - posY2);
-            } else if (posX2 < posX && posY2 > posY) {
-                $(".new_block").css('left', posX2);
-                $(".new_block").css('top', posY);
-                $(".new_block").width(posX - posX2);
-                $(".new_block").height(posY2 - posY);
-            } else if (posX2 > posX && posY2 > posY) {
-                $(".new_block").width(posX2 - posX);
-                $(".new_block").height(posY2 - posY);
-                $(".new_block").css('left', posX);
-                $(".new_block").css('top', posY);
-            } else {
-                $(".new_block").width(0);
-                $(".new_block").height(0);
-            }
-
-            $("#game").on("mouseup", function () {
-                $(res).removeClass("new_block");
-                $(res).addClass("in_lvl");
-            });
-        });
-    });
-});
 function Player(posX, posY, width, height, speed, rot) {
     this.posX = posX;
     this.posY = posY;
@@ -178,30 +224,21 @@ function parseLvl(xml) {
     arr.height = $(xml).find("height")[0].innerHTML;
     return arr;
 }
-function getLvlsConfig() {
-    var xml = null;
-
-    $.ajax({
-        url: "/public/store/config.xml",
-        type: "POST",
-        success: function (json) {
-            xml = json;
-        }
-    });
-
-    var arr = {};
-    arr.lvls = [];
-    $(xml).find("collision").each(function(idx, v) {
-        arr.lvls[idx] = {};
+function parseLvlsConfig(xml) {
+    var arr = [];
+    $(xml).find("lvl").each(function(idx, v) {
+        arr[idx] = {};
         $(v).find("name").each(function( i , vi) {
-            arr.lvls[idx].name = $(vi).text();
+            arr[idx].name = $(vi).text();
         });
         $(v).find("filename").each(function( i , vi) {
-            arr.lvls[idx].filename = $(vi).text();
+            arr[idx].filename = $(vi).text();
         });
 
     });
-
     return arr;
+}
+function updateScope() {
+    $("#update").click();
 }
 

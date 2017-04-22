@@ -82,3 +82,22 @@ img{
     width: 300px;
     height: 800px;
 }
+select{
+    width: 90%;
+    margin: 10px auto;
+    display: block;
+}
+.colision-table{
+    max-height: 300px;
+    overflow: auto;
+    width:90%;
+    margin: auto;
+    margin-bottom: 10px;
+}
+#colision-table{
+    width: 100%;
+    text-align: center;
+}
+#colision-table tbody tr:hover{
+    background: cadetblue;
+}
