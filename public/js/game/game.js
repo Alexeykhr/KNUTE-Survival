@@ -9,7 +9,7 @@ module.controller('mainCtrl', ['$scope', '$http', function ($scope, $http) {
         console.log($scope.map);
     });
     $scope.player = new Player(110,110,110,110,10,"down");
-    $scope.go = false;
+    $scope.go = false
 
     $scope.keyDown = function (event) {
         switch (event.which){
@@ -89,6 +89,13 @@ module.controller('mainCtrl', ['$scope', '$http', function ($scope, $http) {
         $('#display').animate({ scrollLeft: scrollLeft }, 0);
     });
 }]);
+
+$(document).ready(function () {
+    $("#constructor").on("click", function () {
+        document.cookie = "constructor=true; path=/;";
+        location.reload();
+    });
+});
 
 function Player(posX, posY, width, height, speed, rot) {
     this.posX = posX;

@@ -2,7 +2,6 @@
     display: none;
 }
 .right{
-
 }
 .down{
     transform: rotate(90deg);
@@ -24,38 +23,29 @@ img{
     height: 800px;
     border: 1px solid lawngreen;
     background-color: #764E2C;
-
-    /*for create maps*/
     cursor: crosshair;
 }
 #display{
     width: 1000px;
     height: 800px;
-    overflow: hidden;
-    margin: 150px auto;
-
-    /*for create maps*/
     overflow: scroll;
-}
-.box{
-    background-color: #B0C4DE;
-    position: absolute;
+    float: left;
 }
 #player{
     position: absolute;
 }
-
 .new_block{
     position: absolute;
     border: 1px black dotted;
     background: azure;
+    opacity: 0.4;
 }
 .in_lvl{
     position: absolute;
     border: 1px black dashed;
     background: azure;
+    opacity: 0.2;
 }
-
 *{
     -moz-user-select: none; /* Mozilla Firefox */
     -ms-user-select: none; /* Internet Explorer (не поддерживается) */
@@ -81,4 +71,14 @@ img{
 }
 #constructor{
     float: right;
+}
+.container{
+    width: 1300px;
+    margin: 150px auto;
+}
+#right-panel{
+    float: left;
+    background: cyan;
+    width: 300px;
+    height: 800px;
 }

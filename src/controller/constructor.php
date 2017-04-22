@@ -1,3 +1,0 @@
-<?php
-
-$inConstr = true;

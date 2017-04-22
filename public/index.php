@@ -10,6 +10,7 @@ if ( empty($_COOKIE['logged']) )
 	return require KNUTE_DIR . '/src/view/auth/index.php';
 
 $auth = UsersModel::isAuth($_COOKIE['logged']);
+$inConstructor = $_COOKIE['constructor'];
 
 if ( is_null($auth) )
 	return require KNUTE_DIR . '/src/view/auth/index.php';

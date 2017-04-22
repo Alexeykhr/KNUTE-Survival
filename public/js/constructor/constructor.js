@@ -1,14 +1,16 @@
-var module = angular.module('game', []);
+var module = angular.module('app', []);
 
-module.controller('mainCtrl', ['$scope', '$http', function ($scope, $http) {
-    $.when($.ajax({
-        url: "/public/store/xmls/lvl1.xml",
-        type: "POST"
-    })).done(function(a1) {
-        $scope.map = parseLvl(a1);
-        console.log($scope.map);
-    });
-    $scope.player = new Player(110,110,110,110,10,"down");
+module.controller('constr', ['$scope', '$http', function ($scope, $http) {
+    // $.when($.ajax({
+    //     url: "/public/store/xmls/lvl1.xml",
+    //     type: "POST"
+    // })).done(function(a1) {
+    //     $scope.map = parseLvl(a1);
+    //     console.log($scope.map);
+    // });
+    $scope.map = [];
+    // $scope.player = new Player(110,110,110,110,10,"down");
+    $scope.player = [];
     $scope.go = false;
 
     $scope.keyDown = function (event) {
@@ -176,3 +178,30 @@ function parseLvl(xml) {
     arr.height = $(xml).find("height")[0].innerHTML;
     return arr;
 }
+function getLvlsConfig() {
+    var xml = null;
+
+    $.ajax({
+        url: "/public/store/config.xml",
+        type: "POST",
+        success: function (json) {
+            xml = json;
+        }
+    });
+
+    var arr = {};
+    arr.lvls = [];
+    $(xml).find("collision").each(function(idx, v) {
+        arr.lvls[idx] = {};
+        $(v).find("name").each(function( i , vi) {
+            arr.lvls[idx].name = $(vi).text();
+        });
+        $(v).find("filename").each(function( i , vi) {
+            arr.lvls[idx].filename = $(vi).text();
+        });
+
+    });
+
+    return arr;
+}
+
