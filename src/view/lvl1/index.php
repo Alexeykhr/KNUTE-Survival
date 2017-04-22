@@ -3,9 +3,7 @@
 <head>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
     <script src="/public/js/libs/jquery.js"></script>
-    <script src="/public/js/game.js"></script>
-    <script src="/public/js/lvls/lvl1.js"></script>
-
+    <script src="/public/js/game/game.js"></script>
 
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -14,7 +12,7 @@
     <title>Lvl 1</title>
     <link rel="stylesheet" href="/public/css/game.css">
 </head>
-<body ng-controller="mainCtrl" ng-keydown="keyDown($event)" ng-keyup="keyUp()">
+<body ng-controller="mainCtrl" ng-keydown="keyDown($event)" ng-keyup="keyUp()" >
 <!--    <input type="text" ng-model="go">-->
     <div id="display" >
         <div id="game" style="width:{{map.width}};height:{{map.height}};">
@@ -22,7 +20,7 @@
                 <img id="go" ng-show="go" src="/public/img/player/go.gif" alt="">
                 <img id="stop" ng-show="!go" src="/public/img/player/stop.png" alt="">
             </div>
-            <div ng-repeat="col in map.lvl" class="box" style="top:{{col.posY}};left:{{col.posX}};width:{{col.width}};height:{{col.height}};"></div>
+            <div ng-repeat="col in map.collision" class="box" style="top:{{col.posY}};left:{{col.posX}};width:{{col.width}};height:{{col.height}};"></div>
         </div>
     </div>
 </body>

@@ -1,0 +1,36 @@
+
+<lvl>
+    <name>Lvl1</name>
+    <width>1880</width>
+    <height>1880</height>
+    <collision>
+        <posx>0</posx>
+        <posy>0</posy>
+        <width>1880</width>
+        <height>110</height>
+    </collision>
+    <collision>
+        <posx>0</posx>
+        <posy>110</posy>
+        <width>110</width>
+        <height>1770</height>
+    </collision>
+    <collision>
+        <posx>110</posx>
+        <posy>1770</posy>
+        <width>1770</width>
+        <height>110</height>
+    </collision>
+    <collision>
+        <posx>1770</posx>
+        <posy>110</posy>
+        <width>110</width>
+        <height>1660</height>
+    </collision>
+    <collision>
+        <posx>700</posx>
+        <posy>350</posy>
+        <width>300</width>
+        <height>500</height>
+    </collision>
+</lvl>

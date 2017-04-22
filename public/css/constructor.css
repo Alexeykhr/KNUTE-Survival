@@ -24,12 +24,18 @@ img{
     height: 800px;
     border: 1px solid lawngreen;
     background-color: #764E2C;
+
+    /*for create maps*/
+    cursor: crosshair;
 }
 #display{
     width: 1000px;
     height: 800px;
     overflow: hidden;
     margin: 150px auto;
+
+    /*for create maps*/
+    overflow: scroll;
 }
 .box{
     background-color: #B0C4DE;
