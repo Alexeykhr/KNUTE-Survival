@@ -2,20 +2,88 @@ var module = angular.module('app', []);
 
 module.controller('constr', ['$scope', '$http', function ($scope, $http) {
 
-    $scope.changelvl = null;
+    $scope.changelvl = 0;
     $scope.map = [];
     // $scope.player = new Player(110,110,110,110,10,"down");
     $scope.player = [];
     $scope.go = false;
-    // $scope.lvls = [];
+    $scope.showPoppup = false;
+    $scope.newLvl = false; //poppup
 
     $.when($.ajax({
-            url: "/public/store/config.xml",
-            type: "POST"})).done(function(a1) {
-        $scope.lvls = parseLvlsConfig(a1);
-        console.log("lvls", $scope.lvls.lvls);
+        url: "/public/store/xmls/lvl1.xml",
+        type: "POST"
+    })).done(function(a1) {
+        $scope.lvls = parseLvl(a1);
+        $scope.map = $scope.lvls.lvls[$scope.changelvl];
+        console.log($scope.lvls, $scope.map);
         updateScope();
     });
+
+    $scope.createNewLvl = function () {
+        var name = $("#projName").val();
+        var width = $("#projWidth").val();
+        var height = $("#projHeight").val();
+
+        $scope.map = {
+            "collision":{},
+            "height":height,
+            "width":width
+        };
+
+        $scope.lvls.push({
+            "name":name,
+            "filename":name+".xml"
+        });
+        $scope.changelvl = name+".xml";
+
+        $scope.showPoppup = false;
+        $scope.newLvl = false;
+
+        var text_xml = "<lvl><name>"+name+"</name><width>"+width+"</width><height>"+height+"</height></lvl>";
+
+        $.ajax({
+            url: "/src/controller/AjaxController.php",
+            type: "POST",
+            data: {
+                'action': "createLvl",
+                'data': text_xml
+            },
+            success: function () {
+                console.log("save");
+            }
+        });
+    };
+
+    $scope.saveAll = function () {
+        var text_xml = "<lvls>";
+
+        for(var lvl in $scope.lvls.lvls){
+            text_xml+= "<lvl><name>"+$scope.lvls.lvls[lvl].name+"</name>" +
+                "<width>"+$scope.lvls.lvls[lvl].width+"</width>" +
+                "<height>"+$scope.lvls.lvls[lvl].height+"</height>";
+            for(var col in $scope.lvls.lvls[lvl].collision){
+                text_xml+= "<collision><posX>"+$scope.lvls.lvls[lvl].collision[col].posX+"</posX>" +
+                                    "<posY>"+$scope.lvls.lvls[lvl].collision[col].posY+"</posY>" +
+                                    "<width>"+$scope.lvls.lvls[lvl].collision[col].width+"</width>" +
+                                    "<height>"+$scope.lvls.lvls[lvl].collision[col].height+"</height></collision>"
+            }
+            text_xml+="</lvl>";
+        }
+        text_xml+="</lvls>";
+
+        $.ajax({
+            url: "/src/controller/AjaxController.php",
+            type: "POST",
+            data: {
+                'action': "saveLvls",
+                'data': text_xml
+            },
+            success: function () {
+                console.log("save");
+            }
+        });
+    };
 
     $scope.keyDown = function (event) {
         switch (event.which){
@@ -36,6 +104,74 @@ module.controller('constr', ['$scope', '$http', function ($scope, $http) {
     $scope.keyUp = function () {
         $scope.go = false;
     };
+
+    $scope.goes = function (vector) {
+        $scope.go = true;
+        switch (vector){
+            case "up":
+                $scope.player.posY -= $scope.player.speed;
+                if($scope.touchPlMp())
+                    $scope.player.posY += $scope.player.speed;
+                $scope.player.rot = "up";
+                break;
+            case "down":
+                $scope.player.posY += $scope.player.speed;
+                if($scope.touchPlMp())
+                    $scope.player.posY -= $scope.player.speed;
+                $scope.player.rot = "down";
+                break;
+            case "left":
+                $scope.player.posX -= $scope.player.speed;
+                if($scope.touchPlMp())
+                    $scope.player.posX += $scope.player.speed;
+                $scope.player.rot = "left";
+                break;
+            case "right":
+                $scope.player.posX += $scope.player.speed;
+                if($scope.touchPlMp())
+                    $scope.player.posX -= $scope.player.speed;
+                $scope.player.rot = "right";
+                break;
+        }
+    };
+
+    $scope.touchObj = function (obj1, obj2) {
+
+        var gap = 40;
+
+        return !(Number(obj1.posY) + Number(obj1.height) < Number(obj2.posY)||
+        Number(obj1.posX) + Number(obj1.width) < Number(obj2.posX) ||
+        Number(obj1.posY) + gap > Number(obj2.posY) + Number(obj2.height)||
+        Number(obj1.posX) + gap > Number(obj2.posX) + Number(obj2.width));
+
+    };
+
+    $scope.touchPlMp = function () {
+        for(var col in $scope.map.collision)
+            if($scope.touchObj($scope.player, $scope.map.collision[col]))
+                return true;
+        return false;
+    };
+
+    $scope.$watch('player.posY', function () {
+        var scrollTop = $scope.player.posY - $('#display').height()/2 + $scope.player.height;
+        $('#display').animate({ scrollTop:  scrollTop}, 0);
+    });
+
+    $scope.$watch('player.posX', function () {
+        var scrollLeft = $scope.player.posX - $('#display').width()/2 + $scope.player.width;
+        $('#display').animate({ scrollLeft: scrollLeft }, 0);
+    });
+
+    $scope.$watch('changelvl', function (newValue) {
+        console.log(newValue);
+        if($scope.lvls!=undefined)
+            $scope.map = $scope.lvls.lvls[$scope.changelvl];
+    });
+
+    $scope.$watch('changelvl', function (newValue) {
+        console.log(newValue);
+    });
 
     $(document).ready(function (){
         var mouseDown = false;
@@ -108,88 +244,25 @@ module.controller('constr', ['$scope', '$http', function ($scope, $http) {
                 posX = posX.substr(0, posX.length - 2);
                 posY = posY.substr(0, posY.length - 2);
 
-                $scope.map.collision.push({
-                    "posX": posX,
-                    "posY": posY,
-                    "width": $(res).width(),
-                    "height": $(res).height()
-                });
+                if($scope.map.collision != undefined)
+                    $scope.map.collision.push({
+                        "posX": posX,
+                        "posY": posY,
+                        "width": $(res).width(),
+                        "height": $(res).height()
+                    });
+                else
+                    $scope.map.collision = [{
+                        "posX": posX,
+                        "posY": posY,
+                        "width": $(res).width(),
+                        "height": $(res).height()
+                    }];
                 mouseUp = true;
                 updateScope();
                 $(res).remove();
             }
         });
-    });
-
-    $scope.goes = function (vector) {
-        $scope.go = true;
-        switch (vector){
-            case "up":
-                $scope.player.posY -= $scope.player.speed;
-                if($scope.touchPlMp())
-                    $scope.player.posY += $scope.player.speed;
-                $scope.player.rot = "up";
-                break;
-            case "down":
-                $scope.player.posY += $scope.player.speed;
-                if($scope.touchPlMp())
-                    $scope.player.posY -= $scope.player.speed;
-                $scope.player.rot = "down";
-                break;
-            case "left":
-                $scope.player.posX -= $scope.player.speed;
-                if($scope.touchPlMp())
-                    $scope.player.posX += $scope.player.speed;
-                $scope.player.rot = "left";
-                break;
-            case "right":
-                $scope.player.posX += $scope.player.speed;
-                if($scope.touchPlMp())
-                    $scope.player.posX -= $scope.player.speed;
-                $scope.player.rot = "right";
-                break;
-        }
-    };
-
-    $scope.touchObj = function (obj1, obj2) {
-
-        var gap = 40;
-
-        return !(Number(obj1.posY) + Number(obj1.height) < Number(obj2.posY)||
-        Number(obj1.posX) + Number(obj1.width) < Number(obj2.posX) ||
-        Number(obj1.posY) + gap > Number(obj2.posY) + Number(obj2.height)||
-        Number(obj1.posX) + gap > Number(obj2.posX) + Number(obj2.width));
-
-    };
-
-    $scope.touchPlMp = function () {
-        for(var col in $scope.map.collision)
-            if($scope.touchObj($scope.player, $scope.map.collision[col]))
-                return true;
-        return false;
-    };
-
-    $scope.$watch('player.posY', function () {
-        var scrollTop = $scope.player.posY - $('#display').height()/2 + $scope.player.height;
-        $('#display').animate({ scrollTop:  scrollTop}, 0);
-    });
-
-    $scope.$watch('player.posX', function () {
-        var scrollLeft = $scope.player.posX - $('#display').width()/2 + $scope.player.width;
-        $('#display').animate({ scrollLeft: scrollLeft }, 0);
-    });
-
-    $scope.$watch('changelvl', function (newValue) {
-        console.log(newValue);
-        if(newValue != null || newValue != undefined)
-            $.when($.ajax({
-                url: "/public/store/xmls/"+newValue,
-                type: "POST"
-            })).done(function(a1) {
-                $scope.map = parseLvl(a1);
-                console.log($scope.map);
-                updateScope();
-            });
     });
 }]);
 
@@ -204,37 +277,28 @@ function Player(posX, posY, width, height, speed, rot) {
 }
 function parseLvl(xml) {
     var arr = {};
-    arr.collision = [];
-    $(xml).find("collision").each(function(idx, v) {
-        arr.collision[idx] = {};
-        $(v).find("posx").each(function( i , vi) {
-            arr.collision[idx].posX = $(vi).text();
-        });
-        $(v).find("posy").each(function( i , vi) {
-            arr.collision[idx].posY = $(vi).text();
-        });
-        $(v).find("width").each(function( i , vi) {
-            arr.collision[idx].width = $(vi).text();
-        });
-        $(v).find("height").each(function( i , vi) {
-            arr.collision[idx].height= $(vi).text();
-        });
-    });
-    arr.width = $(xml).find("width")[0].innerHTML;
-    arr.height = $(xml).find("height")[0].innerHTML;
-    return arr;
-}
-function parseLvlsConfig(xml) {
-    var arr = [];
-    $(xml).find("lvl").each(function(idx, v) {
-        arr[idx] = {};
-        $(v).find("name").each(function( i , vi) {
-            arr[idx].name = $(vi).text();
-        });
-        $(v).find("filename").each(function( i , vi) {
-            arr[idx].filename = $(vi).text();
-        });
-
+    arr.lvls = [];
+    $(xml).find("lvl").each(function (lvl_i, lvl){
+            arr.lvls[lvl_i] = {};
+            arr.lvls[lvl_i].collision = [];
+            $(lvl).find("collision").each(function (idx, v) {
+                arr.lvls[lvl_i].collision[idx] = {};
+                $(v).find("posX").each(function (i, vi) {
+                    arr.lvls[lvl_i].collision[idx].posX = $(vi).text();
+                });
+                $(v).find("posY").each(function (i, vi) {
+                    arr.lvls[lvl_i].collision[idx].posY = $(vi).text();
+                });
+                $(v).find("width").each(function (i, vi) {
+                    arr.lvls[lvl_i].collision[idx].width = $(vi).text();
+                });
+                $(v).find("height").each(function (i, vi) {
+                    arr.lvls[lvl_i].collision[idx].height = $(vi).text();
+                });
+            });
+            arr.lvls[lvl_i].width = $(lvl).find("lvl > width").text();
+            arr.lvls[lvl_i].height = $(lvl).find("lvl > height").text();
+            arr.lvls[lvl_i].name = $(lvl).find("lvl > name").text();
     });
     return arr;
 }

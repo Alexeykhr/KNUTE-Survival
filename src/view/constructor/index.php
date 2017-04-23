@@ -13,8 +13,20 @@
     <title>Constructor</title>
 </head>
 <body ng-controller="constr" ng-keydown="keyDown($event)" ng-keyup="keyUp()" >
+<input type="button" id="update" ng-show="false" ng-click="keyUp()"/>
+<div class="poppup pop-crtLvl" ng-show="newLvl">
+    <div>
+        <input type="text" id="projName" placeholder="Name"/>
+        <input type="number" id="projWidth" placeholder="Width (px)"/>
+        <input type="number" id="projHeight" placeholder="Height (px)"/>
+        <input type="button" ng-click="createNewLvl()" value="Создать"/>
+    </div>
+</div>
+<div class="poppup-back" ng-show="showPoppup"></div>
 <div class="container">
-    <input type="button" id="update" ng-show="false" ng-click="keyUp()"/>
+    <div id="top-panel">
+        <button ng-click="showPoppup = true;newLvl = true;" id="creatNewLvl">Создать новый уровень</button>
+    </div>
     <div id="display" >
         <div id="game" style="width:{{map.width}};height:{{map.height}};">
 <!--            <div id="player" class="{{player.rot}}" style="width:{{player.width}};height:{{player.height}};top:{{player.posY + player.gap}};left:{{player.posX + player.gap}};">-->
@@ -26,7 +38,7 @@
     </div>
     <div id="right-panel">
         <select ng-model="changelvl">
-            <option ng-repeat="lvl in lvls" value="{{lvl.filename}}">{{lvl.name}}</option>
+            <option ng-repeat="lvl in lvls.lvls track by $index" value="{{$index}}">{{lvl.name}}</option>
         </select>
         <div class="colision-table">
             <table id="colision-table" >
@@ -47,10 +59,10 @@
                         <td id="width-{{$index}}">{{col.width}}</td>
                         <td id="height-{{$index}}">{{col.height}}</td>
                     </tr>
-                    <tr></tr>
                 </tbody>
             </table>
         </div>
+        <input type="button" id="save" ng-click="saveAll()" value="Сохранить"/>
     </div>
 </div>
 </body>

@@ -52,6 +52,12 @@ img{
     -o-user-select: none; /* Opera Presto (не поддерживается) */
     -webkit-user-select: none; /* Google Chrome, Opera Next, Safari */
 }
+input{
+    -moz-user-select: text; /* Mozilla Firefox */
+    -ms-user-select: text; /* Internet Explorer (не поддерживается) */
+    -o-user-select: text; /* Opera Presto (не поддерживается) */
+    -webkit-user-select: text; /* Google Chrome, Opera Next, Safari */
+}
 .header{
     position: fixed;
     top: 0px;
@@ -74,13 +80,19 @@ img{
 }
 .container{
     width: 1300px;
-    margin: 150px auto;
+    margin: 100px auto;
+}
+#top-panel{
+    background: cyan;
+    width: 100%;
+    height: 90px;
 }
 #right-panel{
     float: left;
     background: cyan;
     width: 300px;
     height: 800px;
+    position: relative;
 }
 select{
     width: 90%;
@@ -100,4 +112,52 @@ select{
 }
 #colision-table tbody tr:hover{
     background: cadetblue;
+}
+#creatNewLvl{
+    float: right;
+    margin: 10px;
+    width: 281px;
+    height: calc(100% - 20px);
+    font-family: Arial;
+    font-weight: bold;
+    font-size: 17px;
+    background: aqua;
+}
+.poppup-back{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: black;
+    opacity: 0.9;
+    top: 0;
+    left: 0;
+    z-index: 998;
+}
+.poppup{
+    position: fixed;
+    width: 600px;
+    min-height: 100px;
+    background: white;
+    margin-top: 150px;
+    margin-left: 50%;
+    transform: translateX(-50%);
+    z-index: 999;
+}
+.pop-crtLvl > div{
+    width: 300px;
+    margin: auto;
+    padding: 50px 0px;
+}
+.pop-crtLvl input{
+    width: 90%;
+    margin: 10px auto;
+    height: 50px;
+}
+#save{
+    position: absolute;
+    bottom: 0px;
+    margin: 10px;
+    width: calc(100% - 20px);
+    height: 60px;
+    background: aqua;
 }

@@ -7,6 +7,7 @@ module.controller('mainCtrl', ['$scope', '$http', function ($scope, $http) {
     })).done(function(a1) {
         $scope.map = parseLvl(a1);
         console.log($scope.map);
+        updateScope();
     });
     $scope.player = new Player(110,110,110,110,10,"down");
     $scope.go = false
@@ -127,4 +128,7 @@ function parseLvl(xml) {
     arr.width = $(xml).find("width")[0].innerHTML;
     arr.height = $(xml).find("height")[0].innerHTML;
     return arr;
+}
+function updateScope() {
+    $("#update").click();
 }

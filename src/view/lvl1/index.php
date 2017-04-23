@@ -15,7 +15,7 @@
 </head>
 <body ng-controller="mainCtrl" ng-keydown="keyDown($event)" ng-keyup="keyUp()" >
 
-<!--    <input type="text" ng-model="go">-->
+    <input id="update" type="button" ng-click="keyUp()" ng-show="false"/>
 <div id="display" >
     <div id="game" style="width:{{map.width}};height:{{map.height}};">
         <div id="player" class="{{player.rot}}" style="width:{{player.width}};height:{{player.height}};top:{{player.posY + player.gap}};left:{{player.posX + player.gap}};">
