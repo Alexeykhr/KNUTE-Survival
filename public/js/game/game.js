@@ -1,16 +1,21 @@
 var module = angular.module('game', []);
 
 module.controller('mainCtrl', ['$scope', '$http', function ($scope, $http) {
+
+    $scope.changelvl = 0;
+    $scope.map = [];
+    $scope.player = new Player(0,0,110,110,10,"down");
+    $scope.go = false;
+
     $.when($.ajax({
         url: "/public/store/xmls/lvl1.xml",
         type: "POST"
     })).done(function(a1) {
-        $scope.map = parseLvl(a1);
-        console.log($scope.map);
+        $scope.lvls = parseLvl(a1);
+        $scope.map = $scope.lvls.lvls[$scope.changelvl];
+        console.log($scope.lvls, $scope.map);
         updateScope();
     });
-    $scope.player = new Player(110,110,110,110,10,"down");
-    $scope.go = false
 
     $scope.keyDown = function (event) {
         switch (event.which){
@@ -89,9 +94,16 @@ module.controller('mainCtrl', ['$scope', '$http', function ($scope, $http) {
         var scrollLeft = $scope.player.posX - $('#display').width()/2 + $scope.player.width;
         $('#display').animate({ scrollLeft: scrollLeft }, 0);
     });
+
+    $scope.$watch('changelvl', function (newValue) {
+        console.log(newValue);
+        if($scope.lvls!=undefined)
+            $scope.map = $scope.lvls.lvls[$scope.changelvl];
+    });
+
 }]);
 
-$(document).ready(function () {
+$(document).ready(function () { //перейти в конструктор
     $("#constructor").on("click", function () {
         document.cookie = "constructor=true; path=/;";
         location.reload();
@@ -109,24 +121,29 @@ function Player(posX, posY, width, height, speed, rot) {
 }
 function parseLvl(xml) {
     var arr = {};
-    arr.collision = [];
-    $(xml).find("collision").each(function(idx, v) {
-        arr.collision[idx] = {};
-        $(v).find("posx").each(function( i , vi) {
-            arr.collision[idx].posX = $(vi).text();
+    arr.lvls = [];
+    $(xml).find("lvl").each(function (lvl_i, lvl){
+        arr.lvls[lvl_i] = {};
+        arr.lvls[lvl_i].collision = [];
+        $(lvl).find("collision").each(function (idx, v) {
+            arr.lvls[lvl_i].collision[idx] = {};
+            $(v).find("posX").each(function (i, vi) {
+                arr.lvls[lvl_i].collision[idx].posX = $(vi).text();
+            });
+            $(v).find("posY").each(function (i, vi) {
+                arr.lvls[lvl_i].collision[idx].posY = $(vi).text();
+            });
+            $(v).find("width").each(function (i, vi) {
+                arr.lvls[lvl_i].collision[idx].width = $(vi).text();
+            });
+            $(v).find("height").each(function (i, vi) {
+                arr.lvls[lvl_i].collision[idx].height = $(vi).text();
+            });
         });
-        $(v).find("posy").each(function( i , vi) {
-            arr.collision[idx].posY = $(vi).text();
-        });
-        $(v).find("width").each(function( i , vi) {
-            arr.collision[idx].width = $(vi).text();
-        });
-        $(v).find("height").each(function( i , vi) {
-            arr.collision[idx].height= $(vi).text();
-        });
+        arr.lvls[lvl_i].width = $(lvl).find("lvl > width").text();
+        arr.lvls[lvl_i].height = $(lvl).find("lvl > height").text();
+        arr.lvls[lvl_i].name = $(lvl).find("lvl > name").text();
     });
-    arr.width = $(xml).find("width")[0].innerHTML;
-    arr.height = $(xml).find("height")[0].innerHTML;
     return arr;
 }
 function updateScope() {
