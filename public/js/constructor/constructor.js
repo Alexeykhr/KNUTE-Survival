@@ -9,6 +9,7 @@ module.controller('constr', ['$scope', '$http', function ($scope, $http) {
     $scope.go = false;
     $scope.showPoppup = false;
     $scope.newLvl = false; //poppup
+    $scope.remakeLvl="";
 
     $.when($.ajax({
         url: "/public/store/xmls/lvl1.xml",
@@ -189,7 +190,7 @@ module.controller('constr', ['$scope', '$http', function ($scope, $http) {
         var res = null;
 
         $("#game").on("mousedown", function (e) {
-            if(mouseUp) {
+            if(mouseUp && $scope.remakeLvl=='addColl') {
                 mouseUp = false;
                 mouseDown = true;
                 posX = e.pageX - elem_left + scrollLeft;

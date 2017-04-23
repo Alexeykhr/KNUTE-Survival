@@ -25,10 +25,13 @@
 <div class="poppup-back" ng-show="showPoppup"></div>
 <div class="container">
     <div id="top-panel">
+        <div id="makeLevel">
+            <button ng-click="remakeLvl='addColl'"  id="levelColision">Добавить коллизию</button>
+        </div>
         <button ng-click="showPoppup = true;newLvl = true;" id="creatNewLvl">Создать новый уровень</button>
     </div>
     <div id="display" >
-        <div id="game" style="width:{{map.width}};height:{{map.height}};">
+        <div id="game" class="{{remakeLvl}}" style="width:{{map.width}};height:{{map.height}};">
 <!--            <div id="player" class="{{player.rot}}" style="width:{{player.width}};height:{{player.height}};top:{{player.posY + player.gap}};left:{{player.posX + player.gap}};">-->
 <!--                <img id="go" ng-show="go" src="/public/img/player/go.gif" alt="">-->
 <!--                <img id="stop" ng-show="!go" src="/public/img/player/stop.png" alt="">-->

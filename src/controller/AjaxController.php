@@ -1,4 +1,6 @@
-<?php if( ! isset($_POST['action']) ) return;
+<?php
+
+if( ! isset($_POST['action']) ) return;
 
 require_once "../configs/db.php";
 
