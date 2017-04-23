@@ -167,7 +167,7 @@ select{
 #makeLevel{
     position: absolute;
     width: 900px;
-    height: 60;
+    height: 60px;
     background: cyan;
 }
 
