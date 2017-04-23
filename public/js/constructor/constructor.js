@@ -2,7 +2,7 @@ var module = angular.module('app', []);
 
 module.controller('constr', ['$scope', '$http', function ($scope, $http) {
 
-    $scope.changelvl = 0;
+    $scope.changelvl = -1;
     $scope.map = [];
     // $scope.player = new Player(110,110,110,110,10,"down");
     $scope.player = [];
@@ -15,7 +15,7 @@ module.controller('constr', ['$scope', '$http', function ($scope, $http) {
         type: "POST"
     })).done(function(a1) {
         $scope.lvls = parseLvl(a1);
-        $scope.map = $scope.lvls.lvls[$scope.changelvl];
+        $scope.changelvl = 0;
         console.log($scope.lvls, $scope.map);
         updateScope();
     });
@@ -169,10 +169,6 @@ module.controller('constr', ['$scope', '$http', function ($scope, $http) {
             $scope.map = $scope.lvls.lvls[$scope.changelvl];
     });
 
-    $scope.$watch('changelvl', function (newValue) {
-        console.log(newValue);
-    });
-
     $(document).ready(function (){
         var mouseDown = false;
         var mouseUp = true;
@@ -262,6 +258,11 @@ module.controller('constr', ['$scope', '$http', function ($scope, $http) {
                 updateScope();
                 $(res).remove();
             }
+        });
+
+        $("#constructor").on("click", function () { //выйти из конструктора
+            document.cookie = "constructor=false; path=/;";
+            location.reload();
         });
     });
 }]);
