@@ -26,7 +26,8 @@
 <div class="container">
     <div id="top-panel">
         <div id="makeLevel">
-            <button ng-click="remakeLvl='addColl'"  id="levelColision">Добавить коллизию</button>
+            <button title="Стандартный курсор" style="background-image: url('/public/img/panel-icons/standart.png');" ng-click="remakeLvl=''"></button>
+            <button title="Добавить коллизию"  style="background-image: url('/public/img/panel-icons/collision.png');" ng-click="remakeLvl='addColl'"></button>
         </div>
         <button ng-click="showPoppup = true;newLvl = true;" id="creatNewLvl">Создать новый уровень</button>
     </div>
@@ -36,7 +37,7 @@
 <!--                <img id="go" ng-show="go" src="/public/img/player/go.gif" alt="">-->
 <!--                <img id="stop" ng-show="!go" src="/public/img/player/stop.png" alt="">-->
 <!--            </div>-->
-            <div ng-repeat="col in map.collision track by $index" class="in_lvl" style="top:{{col.posY}};left:{{col.posX}};width:{{col.width}};height:{{col.height}};">{{$index+1}}</div>
+            <div ng-repeat="col in map.collision track by $index" class="in_lvl" id="col-{{$index}}" style="top:{{col.posY}};left:{{col.posX}};width:{{col.width}};height:{{col.height}};">{{$index+1}}</div>
         </div>
     </div>
     <div id="right-panel">
@@ -55,7 +56,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="col in map.collision track by $index">
+                    <tr class="col-{{$index}}" ng-repeat="col in map.collision track by $index" ng-click="showEditMenu($index);">
                         <td>{{$index+1}}</td>
                         <td id="posX-{{$index}}">{{col.posX}}</td>
                         <td id="posY-{{$index}}">{{col.posY}}</td>
@@ -64,6 +65,14 @@
                     </tr>
                 </tbody>
             </table>
+        </div>
+        <div class="editColl">
+            <p>№ : {{editcollisionind+1}}</p>
+            <div>X : </div><input type="number" placeholder="posX" ng-model="editcollision.posX"/>
+            <div>Y : </div><input type="number" placeholder="posY" ng-model="editcollision.posY"/>
+            <div>width : </div><input type="number" placeholder="width" ng-model="editcollision.width"/>
+            <div>height : </div><input type="number" placeholder="height" ng-model="editcollision.height"/>
+            <button ng-click="delCol(editcollisionind)">Удалить</button>
         </div>
         <input type="button" id="save" ng-click="saveAll()" value="Сохранить"/>
     </div>

@@ -2,6 +2,10 @@ var module = angular.module('app', []);
 
 module.controller('constr', ['$scope', '$http', function ($scope, $http) {
 
+    /*
+    * Создать showMessage!
+    * */
+
     $scope.changelvl = -1;
     $scope.map = [];
     // $scope.player = new Player(110,110,110,110,10,"down");
@@ -10,6 +14,8 @@ module.controller('constr', ['$scope', '$http', function ($scope, $http) {
     $scope.showPoppup = false;
     $scope.newLvl = false; //poppup
     $scope.remakeLvl="";
+    $scope.editcollisionind = 0;
+    $scope.editcollision;
 
     $.when($.ajax({
         url: "/public/store/xmls/lvl1.xml",
@@ -32,7 +38,7 @@ module.controller('constr', ['$scope', '$http', function ($scope, $http) {
             "width":width
         };
 
-        $scope.lvls.push({
+        $scope.lvls.lvls.push({
             "name":name,
             "filename":name+".xml"
         });
@@ -41,19 +47,19 @@ module.controller('constr', ['$scope', '$http', function ($scope, $http) {
         $scope.showPoppup = false;
         $scope.newLvl = false;
 
-        var text_xml = "<lvl><name>"+name+"</name><width>"+width+"</width><height>"+height+"</height></lvl>";
-
-        $.ajax({
-            url: "/src/controller/AjaxController.php",
-            type: "POST",
-            data: {
-                'action': "createLvl",
-                'data': text_xml
-            },
-            success: function () {
-                console.log("save");
-            }
-        });
+        // var text_xml = "<lvl><name>"+name+"</name><width>"+width+"</width><height>"+height+"</height></lvl>";
+        //
+        // $.ajax({
+        //     url: "/src/controller/AjaxController.php",
+        //     type: "POST",
+        //     data: {
+        //         'action': "createLvl",
+        //         'data': text_xml
+        //     },
+        //     success: function () {
+        //         console.log("save");
+        //     }
+        // });
     };
 
     $scope.saveAll = function () {
@@ -166,9 +172,25 @@ module.controller('constr', ['$scope', '$http', function ($scope, $http) {
 
     $scope.$watch('changelvl', function (newValue) {
         console.log(newValue);
-        if($scope.lvls!=undefined)
+        if($scope.lvls!=undefined) {
             $scope.map = $scope.lvls.lvls[$scope.changelvl];
+            if($scope.map.collision != undefined)
+                $scope.editcollision = $scope.map.collision[$scope.editcollisionind];
+        }
     });
+
+    $scope.showEditMenu = function (index) {
+        $scope.editcollisionind = index;
+        $scope.editcollision = $scope.map.collision[index];
+        $("#colision-table tbody tr").removeClass("cadetblue");
+        $("#colision-table tbody tr.col-"+index).addClass("cadetblue");
+        $(".in_lvl").removeClass("green");
+        $("#col-"+index).addClass("green");
+    };
+
+    $scope.delCol = function(index){
+        $scope.map.collision.splice(index, 1);
+    };
 
     $(document).ready(function (){
         var mouseDown = false;
@@ -200,7 +222,7 @@ module.controller('constr', ['$scope', '$http', function ($scope, $http) {
         });
 
         $("#game").on("mousemove", function (e2) {
-            if(mouseDown) {
+            if(mouseDown && $scope.remakeLvl=='addColl') {
                 scrollLeft = $('#display').scrollLeft();
                 scrollTop = $('#display').scrollTop();
 
@@ -234,7 +256,7 @@ module.controller('constr', ['$scope', '$http', function ($scope, $http) {
         });
 
         $("#game").on("mouseup", function () {
-            if(mouseDown) {
+            if(mouseDown && $scope.remakeLvl=='addColl') {
                 var posX = $(res).css('left');
                 var posY = $(res).css('top');
 
@@ -243,15 +265,15 @@ module.controller('constr', ['$scope', '$http', function ($scope, $http) {
 
                 if($scope.map.collision != undefined)
                     $scope.map.collision.push({
-                        "posX": posX,
-                        "posY": posY,
+                        "posX": Number(posX),
+                        "posY": Number(posY),
                         "width": $(res).width(),
                         "height": $(res).height()
                     });
                 else
                     $scope.map.collision = [{
-                        "posX": posX,
-                        "posY": posY,
+                        "posX": Number(posX),
+                        "posY": Number(posY),
                         "width": $(res).width(),
                         "height": $(res).height()
                     }];
@@ -268,15 +290,15 @@ module.controller('constr', ['$scope', '$http', function ($scope, $http) {
     });
 }]);
 
-function Player(posX, posY, width, height, speed, rot) {
-    this.posX = posX;
-    this.posY = posY;
-    this.width = width;
-    this.height = height;
-    this.gap = 20;
-    this.speed = speed;
-    this.rot = rot;
-}
+// function Player(posX, posY, width, height, speed, rot) {
+//     this.posX = posX;
+//     this.posY = posY;
+//     this.width = width;
+//     this.height = height;
+//     this.gap = 20;
+//     this.speed = speed;
+//     this.rot = rot;
+// }
 function parseLvl(xml) {
     var arr = {};
     arr.lvls = [];
@@ -286,16 +308,16 @@ function parseLvl(xml) {
             $(lvl).find("collision").each(function (idx, v) {
                 arr.lvls[lvl_i].collision[idx] = {};
                 $(v).find("posX").each(function (i, vi) {
-                    arr.lvls[lvl_i].collision[idx].posX = $(vi).text();
+                    arr.lvls[lvl_i].collision[idx].posX = Number($(vi).text());
                 });
                 $(v).find("posY").each(function (i, vi) {
-                    arr.lvls[lvl_i].collision[idx].posY = $(vi).text();
+                    arr.lvls[lvl_i].collision[idx].posY = Number($(vi).text());
                 });
                 $(v).find("width").each(function (i, vi) {
-                    arr.lvls[lvl_i].collision[idx].width = $(vi).text();
+                    arr.lvls[lvl_i].collision[idx].width = Number($(vi).text());
                 });
                 $(v).find("height").each(function (i, vi) {
-                    arr.lvls[lvl_i].collision[idx].height = $(vi).text();
+                    arr.lvls[lvl_i].collision[idx].height = Number($(vi).text());
                 });
             });
             arr.lvls[lvl_i].width = $(lvl).find("lvl > width").text();

@@ -163,21 +163,46 @@ select{
     width: calc(100% - 20px);
     height: 60px;
     background: aqua;
+    left: 0px;
 }
 #makeLevel{
-    position: absolute;
-    width: 900px;
-    height: 60px;
-    background: cyan;
+    width: 780px;
+    float: left;
+    margin: 25px 10px;
+    height: 40px;
 }
 
-#levelColision{
+#makeLevel button{
+    background-size: 100%;
+    width: 40px;
+    height: 40px;
+}
+.editColl{
+    width: 90%;
+    margin: auto;
+    margin-bottom: 10px;
+}
+.editColl input{
+    float: right;
+}
+.editColl div{
     float: left;
-    margin: 10px;
-    width: 281px;
-    height: calc(100% - 20px);
-    font-family: Arial;
-    font-weight: bold;
-    font-size: 17px;
+    clear: both;
+}
+.editColl button{
+    width: 100%;
+    clear: both;
+    margin-top: 10px;
     background: aqua;
+    height: 40px;
+}
+
+
+
+
+.cadetblue{
+    background: cadetblue;
+}
+.green{
+    background: green;
 }
