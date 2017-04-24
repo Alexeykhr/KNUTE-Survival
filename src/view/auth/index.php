@@ -8,19 +8,19 @@
 
     <title>Authorization</title>
 
-    <link rel="stylesheet" href="/public/css/auth/login.css?1116">
+    <link rel="stylesheet" href="/public/css/auth/login.css?1216">
     <link href="/public/fonts/Lato.ttf">
     <link href="/public/fonts/Roboto.ttf">
 
     <script type="text/javascript" src="/public/js/libs/jquery.js"></script>
-    <script type="text/javascript" src="/public/js/auth/script.js"></script>
+    <script type="text/javascript" src="/public/js/auth/script.js?1636"></script>
 </head>
 <body>
 
 <div class="wrap">
     <div class="inner">
         <div class="container">
-            <img src="/public/img/logo.png">
+            <img src="/public/img/logo.png" alt="Logo KNUTE">
 
             <form id="auth_form">
                 <h2>Authorization</h2>

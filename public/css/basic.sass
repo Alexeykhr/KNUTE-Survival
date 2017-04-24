@@ -7,6 +7,11 @@ html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pr
   vertical-align: baseline
   background: transparent
 
+*
+  -webkit-box-sizing: border-box
+  -moz-box-sizing: border-box
+  box-sizing: border-box
+
 *:focus
   outline: none
 
@@ -23,3 +28,45 @@ img
 
 .hidden
   display: none !important
+
+/* |---------------------------------
+ * | Media screen.
+ * |---------------------------------
+ * |
+ * | xs - Extra small devices (portrait phones)
+ * | sm - Medium devices (tablets)
+ * | md - Large devices (desktops)
+ * | lg - Extra large devices (large desktops)
+ * |
+ */
+$media-xs: 576px
+$media-sm: 768px
+$media-md: 992px
+$media-lg: 1200px
+
+@mixin media-only($media)
+  @if ($media == xs)
+    @media (max-width: $media-xs - 1)
+      @content
+  @else if ($media == sm)
+    @media (min-width: $media-xs) and (max-width: $media-sm - 1)
+      @content
+  //...
+
+@mixin media-down($media)
+  @if ($media == xs)
+    @media (max-width: $media-xs - 1)
+      @content
+  @else if ($media == sm)
+    @media (max-width: $media-sm - 1)
+      @content
+  //...
+
+@mixin media-up($media)
+  @if ($media == xs)
+    @media (min-width: $media-xs)
+      @content
+  @else if ($media == sm)
+    @media (min-width: $media-sm)
+      @content
+  //...

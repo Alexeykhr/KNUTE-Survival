@@ -14,12 +14,10 @@ $user = UsersModel::getUserByLogin($login);
 if( empty($user) )
     die("no auth/");
 
-if( UsersModel::verifyPassword($pass, $user->pass) )
-    echo 'good/';
-else
+if( ! UsersModel::verifyPassword($pass, $user->pass) )
     die('no pass/');
 
 $key = $login . ',' . bin2hex( openssl_random_pseudo_bytes(15) );
-echo $key; // For cookie
+echo 'good/' . $key; // For cookie
 
 UsersModel::addToAuth($user->id, $key);
