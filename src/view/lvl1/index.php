@@ -26,7 +26,7 @@
 
     <input id="update" type="button" ng-click="keyUp()" ng-show="false">
 
-    <div id="display">
+    <div id="display" style=" width: 100%;height: 100%;overflow: hidden;">
         <div id="game" style="width:{{map.width}}px;height:{{map.height}}px;">
             <div id="player" class="{{player.rot}}"style="width:{{player.width}}px;height:{{player.height}}px;top:{{player.posY + player.gap}}px;left:{{player.posX + player.gap}}px;">
                 <img id="go" ng-show="go" src="/public/img/player/go.gif" alt="">
