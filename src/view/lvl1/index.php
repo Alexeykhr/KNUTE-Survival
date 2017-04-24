@@ -11,22 +11,30 @@
 
     <!-- New -->
 <!--    <link rel="stylesheet" href="/public/css/game/style.css">-->
+    <!-- End -->
 
-    <script src="/public/js/libs/angular.min.js"></script>
-    <script src="/public/js/libs/jquery.js"></script>
+    <script src="/public/libs/js/jquery.js"></script>
+    <script src="/public/libs/js/angular.min.js"></script>
     <script src="/public/js/game/game.js"></script>
 </head>
 <body ng-controller="mainCtrl" ng-keydown="keyDown($event)" ng-keyup="keyUp()" >
 
+<header class="header">
+    <div class="cont">Hello,
+        <?= $user->login; ?>
+        <?php if ($user->login == 'admin') echo '<button id="constructor">Перейти к конструктору</button>' ?>
+    </div>
+</header>
+
 <input id="update" type="button" ng-click="keyUp()" ng-show="false">
 
-<div id="display" >
-    <div id="game" style="width:{{map.width}};height:{{map.height}};">
-        <div id="player" class="{{player.rot}}" style="width:{{player.width}};height:{{player.height}};top:{{player.posY + player.gap}};left:{{player.posX + player.gap}};">
+<div id="display">
+    <div id="game" style="width:{{map.width}}px;height:{{map.height}}px;">
+        <div id="player" class="{{player.rot}}"style="width:{{player.width}}px;height:{{player.height}}px;top:{{player.posY + player.gap}}px;left:{{player.posX + player.gap}}px;">
             <img id="go" ng-show="go" src="/public/img/player/go.gif" alt="">
             <img id="stop" ng-show="!go" src="/public/img/player/stop.png" alt="">
         </div>
-        <div ng-repeat="col in map.collision" class="box" style="top:{{col.posY}};left:{{col.posX}};width:{{col.width}};height:{{col.height}};"></div>
+        <div ng-repeat="col in map.collision" class="box" style="top:{{col.posY}}px;left:{{col.posX}}px;width:{{col.width}}px;height:{{col.height}}px;"></div>
     </div>
 </div>
 

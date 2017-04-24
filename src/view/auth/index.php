@@ -9,10 +9,12 @@
     <title>Authorization</title>
 
     <link rel="stylesheet" href="/public/css/auth/style.css?1326">
+    <link rel="stylesheet" href="/public/libs/css/font-awesome.min.css">
+
     <link href="/public/fonts/Lato.ttf">
     <link href="/public/fonts/Roboto.ttf">
 
-    <script type="text/javascript" src="/public/js/libs/jquery.js"></script>
+    <script type="text/javascript" src="/public/libs/js/jquery.js"></script>
     <script type="text/javascript" src="/public/js/auth/script.js?1636"></script>
 </head>
 <body>
@@ -42,7 +44,7 @@
 </div>
 
 <div id="particles-js"></div>
-<script type="text/javascript" src="/public/js/libs/particles.min.js"></script>
+<script type="text/javascript" src="/public/libs/js/particles.min.js"></script>
 <script type="text/javascript" src="/public/js/auth/particles.js"></script>
 
 </body>

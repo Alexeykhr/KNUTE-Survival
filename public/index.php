@@ -18,8 +18,10 @@ if ( is_null($auth) )
 $user = UsersModel::getUserForId($auth->id);
 
 // Необходимо перенести в html код (View), т.к. крашится.
-echo "<div class='header'><div class='cont'>Hello, {$user->login}"
-    . ($user->login == "admin" ? "<button id='constructor'>Перейти к конструктору</button>" : "")
-    . "</div></div>";
+// Пример - lvl1\index.php
+// Если задокументировать эту строку, то всё сломается :D
+//echo "<div class='header'><div class='cont'>Hello, {$user->login}"
+//    . ($user->login == "admin" ? "<button id='constructor'>Перейти к конструктору</button>" : "")
+//    . "</div></div>";
 
 require KNUTE_DIR . '/src/view/index.php';

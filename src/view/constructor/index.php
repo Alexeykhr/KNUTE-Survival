@@ -3,7 +3,7 @@
 <head>
     <script src="https://code.angularjs.org/1.6.4/angular.min.js"></script>
     <script src="https://code.angularjs.org/1.6.4/angular-mocks.js"></script>
-    <script src="/public/js/libs/jquery.js"></script>
+    <script src="/public/libs/js/jquery.js"></script>
     <link rel="stylesheet" href="/public/css/constructor.css">
     <script src="/public/js/constructor/constructor.js"></script>
     <meta charset="UTF-8">
