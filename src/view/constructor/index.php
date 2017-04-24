@@ -1,19 +1,22 @@
 <!doctype html>
 <html ng-app="app">
 <head>
-    <script src="https://code.angularjs.org/1.6.4/angular.min.js"></script>
-    <script src="https://code.angularjs.org/1.6.4/angular-mocks.js"></script>
-    <script src="/public/libs/js/jquery.js"></script>
-    <link rel="stylesheet" href="/public/css/constructor.css">
-    <script src="/public/js/constructor/constructor.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
     <title>Constructor</title>
+    <link rel="stylesheet" href="/public/css/constructor.css">
+
+    <script src="/public/libs/js/jquery.js"></script>
+    <script src="/public/libs/js/angular.min.js"></script>
+    <script src="/public/js/constructor/constructor.js"></script>
 </head>
 <body ng-controller="constr" ng-keydown="keyDown($event)" ng-keyup="keyUp()" >
+
 <input type="button" id="update" ng-show="false" ng-click="keyUp()"/>
+
 <div class="poppup pop-crtLvl" ng-show="newLvl">
     <div>
         <input type="text" id="projName" placeholder="Name"/>
@@ -22,7 +25,9 @@
         <input type="button" ng-click="createNewLvl()" value="Создать"/>
     </div>
 </div>
+
 <div class="poppup-back" ng-show="showPoppup"></div>
+
 <div class="container">
     <div id="top-panel">
         <div id="makeLevel">
@@ -31,19 +36,22 @@
         </div>
         <button ng-click="showPoppup = true;newLvl = true;" id="creatNewLvl">Создать новый уровень</button>
     </div>
+
     <div id="display" >
-        <div id="game" class="{{remakeLvl}}" style="width:{{map.width}};height:{{map.height}};">
+        <div id="game" class="{{remakeLvl}}" style="width:{{map.width}}px;height:{{map.height}}px;">
 <!--            <div id="player" class="{{player.rot}}" style="width:{{player.width}};height:{{player.height}};top:{{player.posY + player.gap}};left:{{player.posX + player.gap}};">-->
 <!--                <img id="go" ng-show="go" src="/public/img/player/go.gif" alt="">-->
 <!--                <img id="stop" ng-show="!go" src="/public/img/player/stop.png" alt="">-->
 <!--            </div>-->
-            <div ng-repeat="col in map.collision track by $index" class="in_lvl" id="col-{{$index}}" style="top:{{col.posY}};left:{{col.posX}};width:{{col.width}};height:{{col.height}};">{{$index+1}}</div>
+            <div ng-repeat="col in map.collision track by $index" class="in_lvl" id="col-{{$index}}" style="top:{{col.posY}}px;left:{{col.posX}}px;width:{{col.width}}px;height:{{col.height}}px;">{{$index+1}}</div>
         </div>
     </div>
+
     <div id="right-panel">
         <select ng-model="changelvl">
             <option ng-repeat="lvl in lvls.lvls track by $index" value="{{$index}}">{{lvl.name}}</option>
         </select>
+
         <div class="colision-table">
             <table id="colision-table" >
                 <thead>
@@ -66,6 +74,7 @@
                 </tbody>
             </table>
         </div>
+
         <div class="editColl">
             <p>№ : {{editcollisionind+1}}</p>
             <div>X : </div><input type="number" placeholder="posX" ng-model="editcollision.posX"/>
@@ -74,8 +83,10 @@
             <div>height : </div><input type="number" placeholder="height" ng-model="editcollision.height"/>
             <button ng-click="delCol(editcollisionind)">Удалить</button>
         </div>
+
         <input type="button" id="save" ng-click="saveAll()" value="Сохранить"/>
     </div>
 </div>
+
 </body>
 </html>
