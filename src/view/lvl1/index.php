@@ -9,13 +9,17 @@
     <title>Lvl 1</title>
     <link rel="stylesheet" href="/public/css/game.css">
 
+    <!-- New -->
+<!--    <link rel="stylesheet" href="/public/css/game/style.css">-->
+
     <script src="/public/js/libs/angular.min.js"></script>
     <script src="/public/js/libs/jquery.js"></script>
     <script src="/public/js/game/game.js"></script>
 </head>
 <body ng-controller="mainCtrl" ng-keydown="keyDown($event)" ng-keyup="keyUp()" >
 
-    <input id="update" type="button" ng-click="keyUp()" ng-show="false"/>
+<input id="update" type="button" ng-click="keyUp()" ng-show="false">
+
 <div id="display" >
     <div id="game" style="width:{{map.width}};height:{{map.height}};">
         <div id="player" class="{{player.rot}}" style="width:{{player.width}};height:{{player.height}};top:{{player.posY + player.gap}};left:{{player.posX + player.gap}};">

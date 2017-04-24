@@ -8,7 +8,7 @@
 
     <title>Authorization</title>
 
-    <link rel="stylesheet" href="/public/css/auth/login.css?1216">
+    <link rel="stylesheet" href="/public/css/auth/style.css?1326">
     <link href="/public/fonts/Lato.ttf">
     <link href="/public/fonts/Roboto.ttf">
 
