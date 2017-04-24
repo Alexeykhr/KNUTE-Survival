@@ -25,6 +25,14 @@
         <input type="button" ng-click="createNewLvl()" value="Создать"/>
     </div>
 </div>
+<div class="poppup pop-crtLvl" ng-show="showEditLvl">
+    <div>
+        <input type="text" ng-model="map.name" placeholder="Name"/>
+        <input type="text" ng-model="map.width" placeholder="Width (px)"/>
+        <input type="text" ng-model="map.height" placeholder="Height (px)"/>
+        <input type="button" ng-click="showEditLvl = false;showPoppup = false;" value="Редактировать"/>
+    </div>
+</div>
 
 <div class="poppup-back" ng-show="showPoppup"></div>
 
@@ -51,6 +59,13 @@
         <select ng-model="changelvl">
             <option ng-repeat="lvl in lvls.lvls track by $index" value="{{$index}}">{{lvl.name}}</option>
         </select>
+
+        <div class="editLvl">
+            <button ng-click="showPoppup = true;showEditLvl = true;">Редактированть уровень</button>
+            <button>Удалить уровень</button>
+            <div class="cls"></div>
+            <input type="button" value="Выбрать мапу" ng-click="" />
+        </div>
 
         <div class="colision-table">
             <table id="colision-table" >

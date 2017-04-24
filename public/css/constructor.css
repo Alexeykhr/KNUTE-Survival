@@ -196,7 +196,23 @@ select{
     background: aqua;
     height: 40px;
 }
-
+.editLvl{
+    width: 90%;
+    margin: 10px auto;
+}
+.editLvl button{
+    float: left;
+    width: 50%;
+    height: 40px;
+}
+.editLvl input{
+    margin-top: 10px;
+    width: 100%;
+    height: 40px;
+}
+.cls{
+    clear: both;
+}
 
 
 

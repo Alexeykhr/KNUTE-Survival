@@ -13,6 +13,7 @@ module.controller('constr', ['$scope', '$http', function ($scope, $http) {
     $scope.go = false;
     $scope.showPoppup = false;
     $scope.newLvl = false; //poppup
+    $scope.showEditLvl = false; //poppup
     $scope.remakeLvl="";
     $scope.editcollisionind = 0;
     $scope.editcollision;
@@ -283,10 +284,10 @@ module.controller('constr', ['$scope', '$http', function ($scope, $http) {
             }
         });
 
-        $("#constructor").on("click", function () { //выйти из конструктора
-            document.cookie = "constructor=false; path=/;";
-            location.reload();
-        });
+        // $("#constructor").on("click", function () { //выйти из конструктора
+        //     document.cookie = "constructor=false; path=/;";
+        //     location.reload();
+        // });
     });
 }]);
 
@@ -329,4 +330,3 @@ function parseLvl(xml) {
 function updateScope() {
     $("#update").click();
 }
-
