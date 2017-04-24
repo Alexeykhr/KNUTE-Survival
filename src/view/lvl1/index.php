@@ -8,10 +8,7 @@
 
     <title>Lvl 1</title>
 <!--    <link rel="stylesheet" href="/public/css/game.css">-->
-
-    <!-- New -->
     <link rel="stylesheet" href="/public/css/game/style.css">
-    <!-- End -->
 
     <script src="/public/libs/js/jquery.js"></script>
     <script src="/public/libs/js/angular.min.js"></script>
@@ -23,7 +20,7 @@
     <header>
         <div class="cont">Hello,
             <?= $user->login; ?>
-            <?php if ($user->login == 'admin') echo '<button id="constructor">Перейти к конструктору</button>' ?>
+            <?php if ($user->login === 'admin') echo '<button id="constructor">Перейти к конструктору</button>' ?>
         </div>
     </header>
 

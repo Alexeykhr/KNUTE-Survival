@@ -4,24 +4,20 @@ use knute\model\UsersModel;
 
 define('KNUTE_DIR', __DIR__ . '/../');
 
+// Database connection.
 require_once "../src/configs/db.php";
 
+// If you do not have authorization cookies.
 if ( empty($_COOKIE['logged']) )
 	return require KNUTE_DIR . '/src/view/auth/index.php';
 
 $auth = UsersModel::isAuth($_COOKIE['logged']);
-$inConstructor = !empty($_COOKIE['constructor']) ?? null;
 
+// If the key is not found.
 if ( is_null($auth) )
 	return require KNUTE_DIR . '/src/view/auth/index.php';
 
-$user = UsersModel::getUserForId($auth->id);
-
-// Необходимо перенести в html код (View), т.к. крашится.
-// Пример - lvl1\index.php
-// Если задокументировать эту строку, то всё сломается :D
-//echo "<div class='header'><div class='cont'>Hello, {$user->login}"
-//    . ($user->login == "admin" ? "<button id='constructor'>Перейти к конструктору</button>" : "")
-//    . "</div></div>";
+$user = UsersModel::getUserById($auth->id);
+$inConstructor = !empty($_COOKIE['constructor']) ?? null;
 
 require KNUTE_DIR . '/src/view/index.php';

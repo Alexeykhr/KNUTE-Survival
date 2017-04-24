@@ -1,10 +1,10 @@
 <?php
 
 /*
- * Не удаляем. Для переноса между устройствами.
+ * To create database tables.
  */
 
-require __DIR__ . '/db.php';
+require_once __DIR__ . '/db.php';
 
 QB::query('CREATE TABLE IF NOT EXISTS auth(
 	id       INT (11)              NOT NULL,

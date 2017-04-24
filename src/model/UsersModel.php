@@ -58,7 +58,7 @@ class UsersModel
      *
      * @return object|null
      */
-    public static function getUserForId($id)
+    public static function getUserById($id)
     {
         return \QB::table(self::TABLE_USERS)
             ->select('*')
@@ -67,7 +67,7 @@ class UsersModel
     }
 
     /**
-     * Update cookies.
+     * Insert/Update cookies.
      *
      * @param int    $id
      * @param string $in_key

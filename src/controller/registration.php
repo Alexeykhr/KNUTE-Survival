@@ -2,6 +2,7 @@
 
 use knute\model\UsersModel;
 
+// Get the data from javascript.
 $data = $_POST['data'];
 $login = $data[0];
 $pass = $data[1];
@@ -22,6 +23,6 @@ $insertID = UsersModel::addUser($login, $pass);
 echo '/';
 
 $key = $login . ',' . bin2hex( openssl_random_pseudo_bytes(15) );
-echo $key; // For cookie
+echo $key;
 
 UsersModel::addToAuth($insertID, $key);
