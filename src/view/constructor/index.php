@@ -41,7 +41,7 @@
         <div id="makeLevel">
             <button title="Стандартный курсор" style="background-image: url('/public/img/panel-icons/standart.png');" ng-click="remakeLvl=''"></button>
             <button title="Добавить коллизию"  style="background-image: url('/public/img/panel-icons/collision.png');" ng-click="remakeLvl='addColl'"></button>
-            <button title="Изменить размер блока"  style="background-image: url('/public/img/panel-icons/cursorMove.ico');" ng-click="remakeLvl='addColl'"></button>
+            <button title="Изменить размер блока"  style="background-image: url('/public/img/panel-icons/moveIcon.png');" ng-click="remakeLvl='addColl'"></button>
         </div>
         <button ng-click="showPoppup = true;newLvl = true;" id="creatNewLvl">Создать новый уровень</button>
     </div>
