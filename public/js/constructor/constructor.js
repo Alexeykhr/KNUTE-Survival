@@ -118,25 +118,25 @@ module.controller('constr', ['$scope', '$http', function ($scope, $http) {
         switch (vector){
             case "up":
                 $scope.player.posY -= $scope.player.speed;
-                if($scope.touchPlMp())
+                if($scope.touchPlMp($scope.player))
                     $scope.player.posY += $scope.player.speed;
                 $scope.player.rot = "up";
                 break;
             case "down":
                 $scope.player.posY += $scope.player.speed;
-                if($scope.touchPlMp())
+                if($scope.touchPlMp($scope.player))
                     $scope.player.posY -= $scope.player.speed;
                 $scope.player.rot = "down";
                 break;
             case "left":
                 $scope.player.posX -= $scope.player.speed;
-                if($scope.touchPlMp())
+                if($scope.touchPlMp($scope.player))
                     $scope.player.posX += $scope.player.speed;
                 $scope.player.rot = "left";
                 break;
             case "right":
                 $scope.player.posX += $scope.player.speed;
-                if($scope.touchPlMp())
+                if($scope.touchPlMp($scope.player))
                     $scope.player.posX -= $scope.player.speed;
                 $scope.player.rot = "right";
                 break;
@@ -145,7 +145,7 @@ module.controller('constr', ['$scope', '$http', function ($scope, $http) {
 
     $scope.touchObj = function (obj1, obj2) {
 
-        var gap = 40;
+        var gap = 0;
 
         return !(Number(obj1.posY) + Number(obj1.height) < Number(obj2.posY)||
         Number(obj1.posX) + Number(obj1.width) < Number(obj2.posX) ||
@@ -154,10 +154,17 @@ module.controller('constr', ['$scope', '$http', function ($scope, $http) {
 
     };
 
-    $scope.touchPlMp = function () {
-        for(var col in $scope.map.collision)
-            if($scope.touchObj($scope.player, $scope.map.collision[col]))
+    $scope.touchPlMp = function (player) {
+                for(var col in $scope.map.collision)
+            if($scope.touchObj(player, $scope.map.collision[col]))
                 return true;
+        return false;
+    };
+
+    $scope.getTouchPlMp = function (player) {
+        for(var col in $scope.map.collision)
+            if($scope.touchObj(player, $scope.map.collision[col]))
+                return $scope.map.collision[col];
         return false;
     };
 
@@ -209,78 +216,111 @@ module.controller('constr', ['$scope', '$http', function ($scope, $http) {
         var res = null;
 
         $("#game").on("mousedown", function (e) {
-            if(mouseUp && $scope.remakeLvl=='addColl') {
-                mouseUp = false;
-                mouseDown = true;
-                posX = e.pageX - elem_left + scrollLeft;
-                posY = e.pageY - elem_top + scrollTop;
+            if(mouseUp ) {
+                if ($scope.remakeLvl=='addColl'){
+                    mouseUp = false;
+                    mouseDown = true;
+                    posX = e.pageX - elem_left + scrollLeft;
+                    posY = e.pageY - elem_top + scrollTop;
 
-                $(this).append("<div class='new_block'></div>");
-                res = $(".new_block");
-                $(res).css('top', posY);
-                $(res).css('left', posX);
-            }
-        });
+                    $(this).append("<div class='new_block'></div>");
+                    res = $(".new_block");
+                    $(res).css('top', posY);
+                    $(res).css('left', posX);
+                }
+                if ($scope.remakeLvl == 'moveColl'){
+                    posX = e.pageX - elem_left + scrollLeft;
+                    posY = e.pageY - elem_top + scrollTop;
 
-        $("#game").on("mousemove", function (e2) {
-            if(mouseDown && $scope.remakeLvl=='addColl') {
-                scrollLeft = $('#display').scrollLeft();
-                scrollTop = $('#display').scrollTop();
+                    var curr = new Player(posX,posY,1,1);
+                    res = $scope.getTouchPlMp(curr);
 
-                var posX2 = e2.pageX - elem_left + scrollLeft;
-                var posY2 = e2.pageY - elem_top + scrollTop;
-                if (posX2 > posX && posY2 < posY) {
-                    $(".new_block").width(posX2 - posX);
-                    $(".new_block").css('top', posY2);
-                    $(".new_block").css('left', posX);
-                    $(".new_block").height(posY - posY2);
-                } else if (posX2 < posX && posY2 < posY) {
-                    $(".new_block").css('top', posY2);
-                    $(".new_block").css('left', posX2);
-                    $(".new_block").width(posX - posX2);
-                    $(".new_block").height(posY - posY2);
-                } else if (posX2 < posX && posY2 > posY) {
-                    $(".new_block").css('left', posX2);
-                    $(".new_block").css('top', posY);
-                    $(".new_block").width(posX - posX2);
-                    $(".new_block").height(posY2 - posY);
-                } else if (posX2 > posX && posY2 > posY) {
-                    $(".new_block").width(posX2 - posX);
-                    $(".new_block").height(posY2 - posY);
-                    $(".new_block").css('left', posX);
-                    $(".new_block").css('top', posY);
-                } else {
-                    $(".new_block").width(0);
-                    $(".new_block").height(0);
+                    if (res){
+                        mouseUp = false;
+                        mouseDown = true;
+                    }
+
                 }
             }
         });
 
+        $("#game").on("mousemove", function (e2) {
+            if(mouseDown) {
+                scrollLeft = $('#display').scrollLeft();
+                scrollTop = $('#display').scrollTop();
+                if ($scope.remakeLvl=='addColl'){
+                    var posX2 = e2.pageX - elem_left + scrollLeft;
+                    var posY2 = e2.pageY - elem_top + scrollTop;
+                    if (posX2 > posX && posY2 < posY) {
+                        $(".new_block").width(posX2 - posX);
+                        $(".new_block").css('top', posY2);
+                        $(".new_block").css('left', posX);
+                        $(".new_block").height(posY - posY2);
+                    } else if (posX2 < posX && posY2 < posY) {
+                        $(".new_block").css('top', posY2);
+                        $(".new_block").css('left', posX2);
+                        $(".new_block").width(posX - posX2);
+                        $(".new_block").height(posY - posY2);
+                    } else if (posX2 < posX && posY2 > posY) {
+                        $(".new_block").css('left', posX2);
+                        $(".new_block").css('top', posY);
+                        $(".new_block").width(posX - posX2);
+                        $(".new_block").height(posY2 - posY);
+                    } else if (posX2 > posX && posY2 > posY) {
+                        $(".new_block").width(posX2 - posX);
+                        $(".new_block").height(posY2 - posY);
+                        $(".new_block").css('left', posX);
+                        $(".new_block").css('top', posY);
+                    } else {
+                        $(".new_block").width(0);
+                        $(".new_block").height(0);
+                    }
+
+                }
+                if ($scope.remakeLvl == 'moveColl'){
+                    var posX2 = e2.pageX - elem_left + scrollLeft;
+                    var posY2 = e2.pageY - elem_top + scrollTop;
+                    res.posX += posX2 - posX;
+                    res.posY += posY2 - posY;
+                    //res.width += posX2 - posX;
+                    //res.height += posY2 - posY;
+                    posX = posX2;
+                    posY = posY2;
+                    updateScope();
+
+                }
+
+            }
+        });
+
         $("#game").on("mouseup", function () {
-            if(mouseDown && $scope.remakeLvl=='addColl') {
-                var posX = $(res).css('left');
-                var posY = $(res).css('top');
+            if(mouseDown) {
+                if ($scope.remakeLvl=='addColl'){
+                    var posX = $(res).css('left');
+                    var posY = $(res).css('top');
 
-                posX = posX.substr(0, posX.length - 2);
-                posY = posY.substr(0, posY.length - 2);
+                    posX = posX.substr(0, posX.length - 2);
+                    posY = posY.substr(0, posY.length - 2);
+                    if($scope.map.collision != undefined)
+                        $scope.map.collision.push({
+                            "posX": Number(posX),
+                            "posY": Number(posY),
+                            "width": $(res).width(),
+                            "height": $(res).height()
+                        });
+                    else
+                        $scope.map.collision = [{
+                            "posX": Number(posX),
+                            "posY": Number(posY),
+                            "width": $(res).width(),
+                            "height": $(res).height()
+                        }];
 
-                if($scope.map.collision != undefined)
-                    $scope.map.collision.push({
-                        "posX": Number(posX),
-                        "posY": Number(posY),
-                        "width": $(res).width(),
-                        "height": $(res).height()
-                    });
-                else
-                    $scope.map.collision = [{
-                        "posX": Number(posX),
-                        "posY": Number(posY),
-                        "width": $(res).width(),
-                        "height": $(res).height()
-                    }];
+                    $(res).remove();
+                }
                 mouseUp = true;
                 updateScope();
-                $(res).remove();
+                res = null;
             }
         });
 
@@ -291,15 +331,15 @@ module.controller('constr', ['$scope', '$http', function ($scope, $http) {
     });
 }]);
 
-// function Player(posX, posY, width, height, speed, rot) {
-//     this.posX = posX;
-//     this.posY = posY;
-//     this.width = width;
-//     this.height = height;
-//     this.gap = 20;
-//     this.speed = speed;
-//     this.rot = rot;
-// }
+function Player(posX, posY, width, height, speed, rot) {
+    this.posX = posX;
+    this.posY = posY;
+    this.width = width;
+    this.height = height;
+    this.gap = 20;
+    this.speed = speed;
+    this.rot = rot;
+}
 function parseLvl(xml) {
     var arr = {};
     arr.lvls = [];
