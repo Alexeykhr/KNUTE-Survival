@@ -36,7 +36,7 @@
         <?php
         if ($user->login === 'admin')
             echo '<button id="constructor">' .
-                'Перейти к конструктору <i class="fa fa-cogs" aria-hidden="true"></i>' .
+                'Конструктор <i class="fa fa-cogs" aria-hidden="true"></i>' .
             '</button>';
         ?>
     </header>

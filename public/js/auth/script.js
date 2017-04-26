@@ -19,7 +19,7 @@ $(document).ready(function () {
                 var res = json.split("/");
                 switch (res[0]) {
                     case "no pass":
-                        showFormError("Неверно введен пароль.", error);
+                        showFormError("Пароль введен неверно.", error);
                         break;
                     case "no data":
                         showFormError("Введите логин и пароль.", error);
@@ -81,6 +81,21 @@ $(document).ready(function () {
                     }
                 }
             });
+    });
+
+    // Toggle tan
+    $("#tab_auth").click(function () {
+        $('#registration_form').addClass('hidden');
+        $('#auth_form').removeClass('hidden');
+        $(this).addClass('active');
+        $('#tab_registration').removeClass('active');
+    });
+
+    $("#tab_registration").click(function () {
+        $('#auth_form').addClass('hidden');
+        $('#registration_form').removeClass('hidden');
+        $(this).addClass('active');
+        $('#tab_auth').removeClass('active');
     });
 });
 

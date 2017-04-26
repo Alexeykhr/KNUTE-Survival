@@ -22,21 +22,24 @@
 <div class="wrap">
     <div class="inner">
         <div class="container">
-            <img src="/public/img/logo.png" alt="Logo KNUTE">
+            <img src="/public/img/logo.png" alt="Логотип КНТЕУ">
+
+            <div class="toggle">
+                <button id="tab_auth" class="t_btn active">Авторизация</button>
+                <button id="tab_registration" class="t_btn">Регистрация</button>
+            </div>
 
             <form id="auth_form">
-                <h2>Authorization</h2>
-                <input type="text" name="login" placeholder="Login">
-                <input type="password" name="pass" placeholder="Password">
-                <input type="submit" value="Sign In">
+                <input type="text" name="login" placeholder="Логин">
+                <input type="password" name="pass" placeholder="Пароль">
+                <input type="submit" value="Авторизоваться">
                 <span class="error hidden"></span>
             </form>
 
-            <form id="registration_form">
-                <h2>Registration</h2>
-                <input type="text" name="login" placeholder="Login">
-                <input type="password" name="pass" placeholder="Password">
-                <input type="submit" value="Sign Up">
+            <form id="registration_form" class="hidden">
+                <input type="text" name="login" placeholder="Логин">
+                <input type="password" name="pass" placeholder="Пароль">
+                <input type="submit" value="Зарегистрироваться">
                 <span class="error hidden"></span>
             </form>
         </div>
