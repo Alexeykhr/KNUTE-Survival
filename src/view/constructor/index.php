@@ -58,12 +58,12 @@
 
     <div id="right-panel">
         <select ng-model="changelvl">
-            <option ng-repeat="lvl in lvls.lvls track by $index" value="{{$index}}">{{lvl.name}}</option>
+            <option ng-repeat="lvl in lvls.lvls track by $index" ng-selected="$index==changelvl" value="{{$index}}">{{lvl.name}}</option>
         </select>
 
         <div class="editLvl">
             <button ng-click="showPoppup = true;showEditLvl = true;">Редактированть уровень</button>
-            <button>Удалить уровень</button>
+            <button ng-click="delLvl()">Удалить уровень</button>
             <div class="cls"></div>
             <input type="button" value="Выбрать мапу" ng-click="" />
         </div>

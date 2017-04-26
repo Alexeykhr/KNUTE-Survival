@@ -24,7 +24,6 @@ module.controller('constr', ['$scope', '$http', function ($scope, $http) {
     })).done(function(a1) {
         $scope.lvls = parseLvl(a1);
         $scope.changelvl = 0;
-        console.log($scope.lvls, $scope.map);
         updateScope();
     });
 
@@ -33,17 +32,18 @@ module.controller('constr', ['$scope', '$http', function ($scope, $http) {
         var width = $("#projWidth").val();
         var height = $("#projHeight").val();
 
+        var id = $scope.lvls.lvls.length;
+
         $scope.map = {
-            "collision":{},
+            "name": name,
+            "collision":[],
             "height":height,
-            "width":width
+            "width":width,
+            "id": id
         };
 
-        $scope.lvls.lvls.push({
-            "name":name,
-            "filename":name+".xml"
-        });
-        $scope.changelvl = name+".xml";
+        $scope.lvls.lvls.push($scope.map);
+        $scope.changelvl = id;
 
         $scope.showPoppup = false;
         $scope.newLvl = false;
@@ -91,6 +91,11 @@ module.controller('constr', ['$scope', '$http', function ($scope, $http) {
                 console.log("save");
             }
         });
+    };
+
+    $scope.delLvl = function () {
+        $scope.lvls.lvls.splice($scope.changelvl, 1);
+        $scope.changelvl = 0;
     };
 
     $scope.keyDown = function (event) {
@@ -181,9 +186,7 @@ module.controller('constr', ['$scope', '$http', function ($scope, $http) {
     $scope.$watch('changelvl', function (newValue) {
         console.log(newValue);
         if($scope.lvls!=undefined) {
-            $scope.map = $scope.lvls.lvls[$scope.changelvl];
-            if($scope.map.collision != undefined)
-                $scope.editcollision = $scope.map.collision[$scope.editcollisionind];
+            $scope.map = $scope.lvls.lvls[newValue];
         }
     });
 
@@ -364,6 +367,7 @@ function parseLvl(xml) {
             arr.lvls[lvl_i].width = $(lvl).find("lvl > width").text();
             arr.lvls[lvl_i].height = $(lvl).find("lvl > height").text();
             arr.lvls[lvl_i].name = $(lvl).find("lvl > name").text();
+            arr.lvls[lvl_i].id = lvl_i;
     });
     return arr;
 }
