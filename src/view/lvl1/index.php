@@ -7,8 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <title>Lvl 1</title>
-<!--    <link rel="stylesheet" href="/public/css/game.css">-->
-    <link rel="stylesheet" href="/public/css/game/style.css">
+    <link rel="stylesheet" href="/public/css/prod/game/style.css">
+    <link rel="stylesheet" href="/public/libs/css/font-awesome.min.css">
 
     <script src="/public/libs/js/jquery.js"></script>
     <script src="/public/libs/js/angular.min.js"></script>
@@ -18,20 +18,38 @@
 
 <div class="wrap">
     <header>
-        <div class="cont">Hello,
-            <?= $user->login; ?>
-            <?php if ($user->login === 'admin') echo '<button id="constructor">Перейти к конструктору</button>' ?>
+        <div class="h_name"><i class="fa fa-user" aria-hidden="true"></i>
+            <span id="login">
+                <?= $user->login; ?>
+            </span>
         </div>
+
+        <div class="h_money"><i class="fa fa-money" aria-hidden="true"></i>
+            <span id="money">
+                <?= $user->money; ?>
+            </span>
+        </div>
+
+        <!-- Need csrf token -->
+        <button id="exit">Выход <i class="fa fa-sign-out" aria-hidden="true"></i></button>
+
+        <?php
+        if ($user->login === 'admin')
+            echo '<button id="constructor">' .
+                'Перейти к конструктору <i class="fa fa-cogs" aria-hidden="true"></i>' .
+            '</button>';
+        ?>
     </header>
 
     <input id="update" type="button" ng-click="keyUp()" ng-show="false">
 
-    <div id="display" style=" width: 100%;height: 100%;overflow: hidden;">
+    <div id="display">
         <div id="game" style="width:{{map.width}}px;height:{{map.height}}px;">
-            <div id="player" class="{{player.rot}}"style="width:{{player.width}}px;height:{{player.height}}px;top:{{player.posY + player.gap}}px;left:{{player.posX + player.gap}}px;">
-                <img id="go" ng-show="go" src="/public/img/player/go.gif" alt="">
-                <img id="stop" ng-show="!go" src="/public/img/player/stop.png" alt="">
+            <div id="player" class="{{player.rot}}" style="width:{{player.width}}px;height:{{player.height}}px;top:{{player.posY + player.gap}}px;left:{{player.posX + player.gap}}px;">
+                <img id="go" ng-show="go" src="/public/img/player/go.gif" alt="go">
+                <img id="stop" ng-show="!go" src="/public/img/player/stop.png" alt="stop">
             </div>
+
             <div ng-repeat="col in map.collision" class="box" style="top:{{col.posY}}px;left:{{col.posX}}px;width:{{col.width}}px;height:{{col.height}}px;"></div>
         </div>
     </div>

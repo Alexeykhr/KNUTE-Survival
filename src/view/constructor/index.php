@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <title>Constructor</title>
-    <link rel="stylesheet" href="/public/css/constructor.css">
+    <link rel="stylesheet" href="/public/css/prod/constructor-temp.css">
 
     <script src="/public/libs/js/jquery.js"></script>
     <script src="/public/libs/js/angular.min.js"></script>
