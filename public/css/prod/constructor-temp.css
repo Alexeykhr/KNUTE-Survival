@@ -222,3 +222,11 @@ select{
 .green{
     background: green;
 }
+
+.moveCollClick{
+    cursor: grabbing;
+}
+
+.moveCollUnclick{
+    cursor: grab;
+}

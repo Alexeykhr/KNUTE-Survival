@@ -234,15 +234,16 @@ module.controller('constr', ['$scope', '$http', function ($scope, $http) {
                 if ($scope.remakeLvl == 'moveCollUnclick'){
                     // posX = e.pageX - elem_left + scrollLeft;
                     // posY = e.pageY - elem_top + scrollTop;
+                    //
+                    // var curr = new Player(posX,posY,1,1);
+                    // res = $scope.getTouchPlMp(curr);
 
-                    //var curr = new Player(posX,posY,1,1);
-                    //res = $scope.getTouchPlMp(curr);
+                    // console.log(res);
 
-
-                        mouseUp = false;
-                        mouseDown = true;
+                    mouseUp = false;
+                    mouseDown = true;
                     $scope.remakeLvl = 'moveCollClick';
-
+                    updateScope();
                 }
             }
         });
@@ -290,20 +291,21 @@ module.controller('constr', ['$scope', '$http', function ($scope, $http) {
                     posX = posX2;
                     posY = posY2;
                     updateScope();
-
                 }
-
             }
-            if ($scope.remakeLvl == 'moveColl' && !mouseDown){
-                var X = e2.pageX - elem_left + scrollLeft,
-                    Y = e2.pageY - elem_top + scrollTop;
+            if (($scope.remakeLvl == 'moveColl' || $scope.remakeLvl == 'moveCollUnclick') && mouseUp){
+                posX = e2.pageX - elem_left + scrollLeft;
+                posY = e2.pageY - elem_top + scrollTop;
 
-                var curr = new Player(X,Y,1,1),
-                    res = $scope.getTouchPlMp(curr);
+                var curr = new Player(posX,posY,1,1);
+                res = $scope.getTouchPlMp(curr);
+
                 if(res){
                     $scope.remakeLvl = 'moveCollUnclick';
-
+                }else{
+                    $scope.remakeLvl = 'moveColl';
                 }
+                updateScope();
             }
         });
 
@@ -336,6 +338,7 @@ module.controller('constr', ['$scope', '$http', function ($scope, $http) {
                     $scope.remakeLvl = 'moveColl';
                 }
                 mouseUp = true;
+                mouseDown = false;
                 updateScope();
                 res = null;
             }
