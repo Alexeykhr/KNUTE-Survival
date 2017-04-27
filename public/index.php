@@ -18,6 +18,6 @@ if ( is_null($auth) )
 	return require KNUTE_DIR . '/src/view/auth/index.php';
 
 $user = UsersModel::getUserById($auth->id);
-$inConstructor = !empty($_COOKIE['constructor']) ?? null;
+$inConstructor = empty($_COOKIE['constructor']) ? false : $_COOKIE['constructor'];
 
 require KNUTE_DIR . '/src/view/index.php';

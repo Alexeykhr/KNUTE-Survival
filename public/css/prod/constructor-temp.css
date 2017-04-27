@@ -118,8 +118,8 @@ select{
 }
 #creatNewLvl{
     float: right;
-    margin: 10px;
-    width: 281px;
+    margin: 10px 5px 10px 10px;
+    width: 230px;
     height: calc(100% - 20px);
     font-family: Arial;
     font-weight: bold;
@@ -229,4 +229,14 @@ select{
 
 .moveCollUnclick{
     cursor: grab;
+}
+
+#exitConstructor{
+    float: right;
+    margin: 10px 10px 10px 5px;
+    width: 40px;
+    height: calc(100% - 20px);
+    background: url("/public/img/panel-icons/exit.png") no-repeat;
+    background-size: 100%;
+    background-position-y: center;
 }

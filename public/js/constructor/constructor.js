@@ -344,10 +344,10 @@ module.controller('constr', ['$scope', '$http', function ($scope, $http) {
             }
         });
 
-        // $("#constructor").on("click", function () { //выйти из конструктора
-        //     document.cookie = "constructor=false; path=/;";
-        //     location.reload();
-        // });
+        $("#exitConstructor").on("click", function () { //выйти из конструктора
+            document.cookie = "constructor=; path=/;";
+            location.reload();
+        });
     });
 }]);
 
