@@ -59,7 +59,7 @@
     </div>
 
     <div id="display" >
-        <div id="game" class="{{remakeLvl}}" style="width:{{map.width}}px;height:{{map.height}}px;">
+        <div id="game" class="{{remakeLvl}}" style="width:{{map.width}}px;height:{{map.height}}px;background-image: url('/public/img/lvl-maps/{{map.map}}');">
 <!--            <div id="player" class="{{player.rot}}" style="width:{{player.width}};height:{{player.height}};top:{{player.posY + player.gap}};left:{{player.posX + player.gap}};">-->
 <!--                <img id="go" ng-show="go" src="/public/img/player/go.gif" alt="">-->
 <!--                <img id="stop" ng-show="!go" src="/public/img/player/stop.png" alt="">-->

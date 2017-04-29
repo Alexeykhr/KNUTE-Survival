@@ -4,7 +4,7 @@ module.controller('mainCtrl', ['$scope', '$http', function ($scope, $http) {
 
     $scope.changelvl = 0;
     $scope.map = [];
-    $scope.player = new Player(0,0,110,110,10,"down");
+    $scope.player = new Player(250,170,50,50,10,"down");
     $scope.go = false;
 
     $.when($.ajax({
@@ -128,21 +128,23 @@ function parseLvl(xml) {
         $(lvl).find("collision").each(function (idx, v) {
             arr.lvls[lvl_i].collision[idx] = {};
             $(v).find("posX").each(function (i, vi) {
-                arr.lvls[lvl_i].collision[idx].posX = $(vi).text();
+                arr.lvls[lvl_i].collision[idx].posX = Number($(vi).text());
             });
             $(v).find("posY").each(function (i, vi) {
-                arr.lvls[lvl_i].collision[idx].posY = $(vi).text();
+                arr.lvls[lvl_i].collision[idx].posY = Number($(vi).text());
             });
             $(v).find("width").each(function (i, vi) {
-                arr.lvls[lvl_i].collision[idx].width = $(vi).text();
+                arr.lvls[lvl_i].collision[idx].width = Number($(vi).text());
             });
             $(v).find("height").each(function (i, vi) {
-                arr.lvls[lvl_i].collision[idx].height = $(vi).text();
+                arr.lvls[lvl_i].collision[idx].height = Number($(vi).text());
             });
         });
         arr.lvls[lvl_i].width = $(lvl).find("lvl > width").text();
         arr.lvls[lvl_i].height = $(lvl).find("lvl > height").text();
         arr.lvls[lvl_i].name = $(lvl).find("lvl > name").text();
+        arr.lvls[lvl_i].map = $(lvl).find("lvl > map").text();
+        arr.lvls[lvl_i].id = lvl_i;
     });
     return arr;
 }

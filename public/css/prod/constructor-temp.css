@@ -23,7 +23,7 @@ img{
     height: 800px;
     border: 1px solid lawngreen;
     background-color: #764E2C;
-
+    background-size: 100% 100%;
 }
 .addColl{
     cursor: crosshair;

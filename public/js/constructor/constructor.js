@@ -80,6 +80,7 @@ module.controller('constr', ['$scope', '$http', function ($scope, $http) {
 
         for(var lvl in $scope.lvls.lvls){
             text_xml+= "<lvl><name>"+$scope.lvls.lvls[lvl].name+"</name>" +
+                "<map>"+$scope.lvls.lvls[lvl].map+"</map>" +
                 "<width>"+$scope.lvls.lvls[lvl].width+"</width>" +
                 "<height>"+$scope.lvls.lvls[lvl].height+"</height>";
             for(var col in $scope.lvls.lvls[lvl].collision){
@@ -396,6 +397,7 @@ function parseLvl(xml) {
             arr.lvls[lvl_i].width = $(lvl).find("lvl > width").text();
             arr.lvls[lvl_i].height = $(lvl).find("lvl > height").text();
             arr.lvls[lvl_i].name = $(lvl).find("lvl > name").text();
+            arr.lvls[lvl_i].map = $(lvl).find("lvl > map").text();
             arr.lvls[lvl_i].id = lvl_i;
     });
     return arr;
