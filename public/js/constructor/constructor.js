@@ -17,13 +17,25 @@ module.controller('constr', ['$scope', '$http', function ($scope, $http) {
     $scope.remakeLvl="";
     $scope.editcollisionind = 0;
     $scope.editcollision;
+    $scope.lvls_urls = [];
 
     $.when($.ajax({
         url: "/public/store/xmls/lvl1.xml",
         type: "POST"
-    })).done(function(a1) {
+    }), $.ajax({
+        url: "/src/controller/getMapImgs.php",
+        type: "POST",
+        dataType: "json"
+    })).done(function(a1, a2) {
         $scope.lvls = parseLvl(a1);
         $scope.changelvl = 0;
+
+        var temp = a2[0];
+        temp.splice(0,1);
+        temp.splice(0,1);
+
+        $scope.lvls_urls = temp;
+        console.log("this ---->>>>>",temp);
         updateScope();
     });
 

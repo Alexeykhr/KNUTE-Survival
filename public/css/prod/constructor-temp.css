@@ -141,10 +141,11 @@ select{
     width: 600px;
     min-height: 100px;
     background: white;
-    margin-top: 150px;
+    /*margin-top: 150px;*/
     margin-left: 50%;
     transform: translateX(-50%);
     z-index: 999;
+    max-height:500px;
 }
 .pop-crtLvl > div{
     width: 300px;
@@ -239,4 +240,47 @@ select{
     background: url("/public/img/panel-icons/exit.png") no-repeat;
     background-size: 100%;
     background-position-y: center;
+}
+.pop-changeMap{
+    width: 80%;
+    padding: 10px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 500px;
+}
+.pop-changeMap .img{
+    width: 200px;
+    height: 200px;
+    float: left;
+    margin: 10px;
+    border:1px solid #868686;
+}
+.pop-changeMap .img:hover{
+    background: lightblue;
+    transition: all 0.7s;
+}
+.pop-changeMap .img > div{
+    width: 150px;
+    height: 150px;
+    margin-left: 25px;
+}
+.pop-changeMap .img > div img{
+    width: auto;
+    height: auto;
+    line-height: 150px;
+    padding-top: 100%;
+    transform: translateY(-50%);
+    max-width: calc(100% - 20px);
+    max-height: calc(100% - 20px);
+    margin: auto;
+    display: block;
+    margin-top: 10px;
+}
+.pop-changeMap .img > p{
+    text-align: center;
+    font-family: Arial;
+    width: calc(100% - 40px);
+    overflow: hidden;
+    margin-left: auto;
+    margin-right: auto;
 }
