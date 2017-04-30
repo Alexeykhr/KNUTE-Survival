@@ -361,6 +361,76 @@ module.controller('constr', ['$scope', '$http', function ($scope, $http) {
             document.cookie = "constructor=; path=/;";
             location.reload();
         });
+
+        // Нужна проверка _________________
+        // Необходимо обновить данные в правой колонке.
+        var canMove = false;
+        var isMoving = false;
+        var side;
+        var idBlock;
+
+        $(".in_lvl").on("mousemove", function () {
+            if ($scope.remakeLvl === 'pointer') {
+                var x = event.layerX;
+                var y = event.layerY;
+
+                if (isMoving) {
+                    if (idBlock !== $(this).attr('id')) return;
+
+                    if (side === 1) {
+                        $('#' + idBlock).css('top', parseInt($('#' + idBlock)[0].style.top) + event.layerY - 10);
+                        $('#' + idBlock).css('height', parseInt($('#' + idBlock)[0].style.height) - event.layerY + 10);
+                    }
+                    else if (side === 2) $('#' + idBlock).css('width', event.layerX + 10);
+                    else if (side === 3) $('#' + idBlock).css('height', event.layerY + 10);
+                    else if (side === 4) {
+                        $('#' + idBlock).css('left', parseInt($('#' + idBlock)[0].style.left) + event.layerX - 10);
+                        $('#' + idBlock).css('width', parseInt($('#' + idBlock)[0].style.width) - event.layerX + 10);
+                    }
+
+                    return;
+                }
+
+                canMove = true;
+
+                if (y < 10) {
+                    $(this).css('cursor', 's-resize'); side = 1;
+                }
+                else if ( x > parseInt($(this)[0].style.width) - 10 ) {
+                    $(this).css('cursor', 'e-resize'); side = 2;
+                }
+                else if ( y > parseInt($(this)[0].style.height) - 10 ) {
+                    $(this).css('cursor', 's-resize'); side = 3;
+                }
+                else if (x < 10) {
+                    $(this).css('cursor', 'e-resize'); side = 4;
+                }
+                else {
+                    $(this).css('cursor', 'context-menu');
+                    canMove = false;
+                }
+            }
+        });
+
+        $(".in_lvl").on("click", function () {
+            if ($scope.remakeLvl === 'pointer') {
+                if (isMoving) {
+                    console.log("NO MOVE");
+                    $('#' + idBlock).css('z-index', 0);
+                    isMoving = false;
+                    idBlock = null;
+                    return;
+                }
+                if (canMove) {
+                    console.log("MOVE");
+                    isMoving = true;
+                    idBlock = $(this).attr('id');
+                    $(this).css('z-index', 99999);
+                }
+            }
+        });
+        // END _________________
+
     });
 }]);
 

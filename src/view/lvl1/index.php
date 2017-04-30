@@ -7,7 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <title>Lvl 1</title>
-    <link rel="stylesheet" href="/public/css/prod/game/style.css">
+<!--    <link rel="stylesheet" href="/public/css/prod/game/style.css">-->
+    <link rel="stylesheet" href="/public/css/prod/game-temp.css">
     <link rel="stylesheet" href="/public/libs/css/font-awesome.min.css">
 
     <script src="/public/libs/js/jquery.js"></script>

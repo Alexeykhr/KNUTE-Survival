@@ -49,6 +49,9 @@ img{
     background: azure;
     opacity: 0.2;
 }
+#game:not(.pointer)>.in_lvl {
+    cursor: inherit !important;
+}
 *{
     -moz-user-select: none; /* Mozilla Firefox */
     -ms-user-select: none; /* Internet Explorer (не поддерживается) */
