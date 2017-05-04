@@ -247,8 +247,8 @@ select{
 .pop-changeMap{
     width: 80%;
     padding: 10px;
-    overflow-y: scroll;
-    overflow-x: hidden;
+    /*overflow-y: scroll;*/
+    /*overflow-x: hidden;*/
     height: 500px;
 }
 .pop-changeMap .img{
@@ -286,4 +286,25 @@ select{
     overflow: hidden;
     margin-left: auto;
     margin-right: auto;
+    height: 20px;
+}
+.pop-changeMap .pop-container{
+    width: calc(100% - 200px);
+    overflow-y: scroll;
+    float: left;
+    height: 100%;
+}
+.pop-changeMap .dropzone{
+    width: 180px;
+    background: #ccc;
+    height: calc(100% - 10px);
+    float: right;
+    border: 5px dashed blue;
+    border-radius: 20px;
+}
+.dropzone div{
+    text-align: center;
+    padding-top: 210px;
+    font-size: 14pt;
+    font-family: Arial;
 }

@@ -362,6 +362,11 @@ module.controller('constr', ['$scope', '$http', function ($scope, $http) {
             location.reload();
         });
 
+
+
+
+
+
         // Нужна проверка _________________
         // Необходимо обновить данные в правой колонке.
         var canMove = false;

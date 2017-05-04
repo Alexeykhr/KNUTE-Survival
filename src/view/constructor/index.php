@@ -42,6 +42,7 @@
             <p>{{url.split(".")[0]}}</p>
         </div>
     </div>
+    <div class="dropzone"><div>Перетащите или кликните.</div></div>
 </div>
 
 <div class="poppup-back" ng-show="showPoppup"></div>
