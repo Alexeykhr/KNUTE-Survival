@@ -53,6 +53,7 @@
             <button title="Стандартный курсор" style="background-image: url('/public/img/panel-icons/standart.png');" ng-click="remakeLvl='pointer'"></button>
             <button title="Добавить коллизию"  style="background-image: url('/public/img/panel-icons/collision.png');" ng-click="remakeLvl='addColl'"></button>
             <button title="Изменить положение блока"  style="background-image: url('/public/img/panel-icons/moveIcon.png');" ng-click="remakeLvl='moveColl'"></button>
+            <button title="Изменить размер блока" ng-click="remakeLvl='resizeColl'"></button>
         </div>
         <button id="exitConstructor"></button>
         <button ng-click="showPoppup = true;newLvl = true;" id="creatNewLvl">Создать новый уровень</button>

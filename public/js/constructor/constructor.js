@@ -231,11 +231,19 @@ module.controller('constr', ['$scope', '$http', function ($scope, $http) {
 
         var res = null;
 
+        // Для изменения размеров
+        var resizeCan    = false;
+        var resizeSide   = 0;
+        var resizeObject = null;
+        var resizePos    = [];
+        // ____
+
         $("#game").on("mousedown", function (e) {
             if(mouseUp ) {
+                mouseUp = false;
+                mouseDown = true;
+
                 if ($scope.remakeLvl=='addColl'){
-                    mouseUp = false;
-                    mouseDown = true;
                     posX = e.pageX - elem_left + scrollLeft;
                     posY = e.pageY - elem_top + scrollTop;
 
@@ -253,8 +261,6 @@ module.controller('constr', ['$scope', '$http', function ($scope, $http) {
 
                     // console.log(res);
 
-                    mouseUp = false;
-                    mouseDown = true;
                     $scope.remakeLvl = 'moveCollClick';
                     updateScope();
                 }
@@ -320,6 +326,55 @@ module.controller('constr', ['$scope', '$http', function ($scope, $http) {
                 }
                 updateScope();
             }
+            else if ($scope.remakeLvl === 'resizeColl') {
+                posX = e2.pageX - elem_left + scrollLeft;
+                posY = e2.pageY - elem_top + scrollTop;
+
+                var curr = new Player(posX,posY,1,1);
+                res = $scope.getTouchPlMp(curr);
+
+                if (mouseDown && resizeCan) {
+                    // Если объект для изменений новый => помещаем в перменные для нормального перемещения по карте.
+                    if (resizeObject === null) {
+                        resizeObject = res;
+                        resizePos = [resizeObject.posY, resizeObject.width, resizeObject.height, resizeObject.posX];
+                    }
+
+                    if (resizeSide === 1) { // Вверх
+                        resizeObject.posY = posY;
+                        resizeObject.height = resizePos[0] + resizePos[2] - posY;
+                    } else if (resizeSide === 2) { // Вправо
+                        resizeObject.width = posX - resizeObject.posX;
+                    } else if (resizeSide === 3) { // Вниз
+                        resizeObject.height = posY - resizeObject.posY;
+                    } else if (resizeSide === 4) { // Влево
+                        resizeObject.posX = posX;
+                        resizeObject.width = resizePos[1] + resizePos[3] - posX;
+                    }
+
+                    // Избавляемся от отрицательных значений
+                    if (resizeObject.height < 1) resizeObject.height = 5;
+                    else if (resizeObject.width < 1) resizeObject.width = 5;
+
+                    updateScope();
+                }
+                else {
+                    resizeCan = true;
+
+                    // Назначаем сторону для изменения размеров
+                    if (res.posY + 5 > posY) {
+                        $("body").css('cursor', 's-resize'); resizeSide = 1;
+                    } else if (posX + 5 > res.width + res.posX) {
+                        $("body").css('cursor', 'e-resize'); resizeSide = 2;
+                    } else if (posY + 5 > res.height + res.posY) {
+                        $("body").css('cursor', 's-resize'); resizeSide = 3;
+                    } else if (res.posX + 5 > posX) {
+                        $("body").css('cursor', 'e-resize'); resizeSide = 4;
+                    } else {
+                        $("body").css('cursor', 'context-menu'); resizeCan = false;
+                    }
+                }
+            }
         });
 
         $("#game").on("mouseup", function () {
@@ -355,87 +410,17 @@ module.controller('constr', ['$scope', '$http', function ($scope, $http) {
                 updateScope();
                 res = null;
             }
+            // Удаляем данные, если перемещение объекта завершенно
+            if ($scope.remakeLvl === 'resizeColl' && resizeObject !== null) {
+                resizePos = [];
+                resizeObject = null;
+            }
         });
 
         $("#exitConstructor").on("click", function () { //выйти из конструктора
             document.cookie = "constructor=; path=/;";
             location.reload();
         });
-
-
-
-
-
-
-        // Нужна проверка _________________
-        // Необходимо обновить данные в правой колонке.
-        var canMove = false;
-        var isMoving = false;
-        var side;
-        var idBlock;
-
-        $(".in_lvl").on("mousemove", function () {
-            if ($scope.remakeLvl === 'pointer') {
-                var x = event.layerX;
-                var y = event.layerY;
-
-                if (isMoving) {
-                    if (idBlock !== $(this).attr('id')) return;
-
-                    if (side === 1) {
-                        $('#' + idBlock).css('top', parseInt($('#' + idBlock)[0].style.top) + event.layerY - 10);
-                        $('#' + idBlock).css('height', parseInt($('#' + idBlock)[0].style.height) - event.layerY + 10);
-                    }
-                    else if (side === 2) $('#' + idBlock).css('width', event.layerX + 10);
-                    else if (side === 3) $('#' + idBlock).css('height', event.layerY + 10);
-                    else if (side === 4) {
-                        $('#' + idBlock).css('left', parseInt($('#' + idBlock)[0].style.left) + event.layerX - 10);
-                        $('#' + idBlock).css('width', parseInt($('#' + idBlock)[0].style.width) - event.layerX + 10);
-                    }
-
-                    return;
-                }
-
-                canMove = true;
-
-                if (y < 10) {
-                    $(this).css('cursor', 's-resize'); side = 1;
-                }
-                else if ( x > parseInt($(this)[0].style.width) - 10 ) {
-                    $(this).css('cursor', 'e-resize'); side = 2;
-                }
-                else if ( y > parseInt($(this)[0].style.height) - 10 ) {
-                    $(this).css('cursor', 's-resize'); side = 3;
-                }
-                else if (x < 10) {
-                    $(this).css('cursor', 'e-resize'); side = 4;
-                }
-                else {
-                    $(this).css('cursor', 'context-menu');
-                    canMove = false;
-                }
-            }
-        });
-
-        $(".in_lvl").on("click", function () {
-            if ($scope.remakeLvl === 'pointer') {
-                if (isMoving) {
-                    console.log("NO MOVE");
-                    $('#' + idBlock).css('z-index', 0);
-                    isMoving = false;
-                    idBlock = null;
-                    return;
-                }
-                if (canMove) {
-                    console.log("MOVE");
-                    isMoving = true;
-                    idBlock = $(this).attr('id');
-                    $(this).css('z-index', 99999);
-                }
-            }
-        });
-        // END _________________
-
     });
 }]);
 
