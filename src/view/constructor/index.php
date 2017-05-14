@@ -43,6 +43,41 @@
         </div>
     </div>
     <div class="dropzone"><div>Перетащите или кликните.</div></div>
+    <script>
+        // dropzone
+        var dropzone = document.getElementsByClassName("dropzone")[0];
+        var msgConteiner = document.querySelector(".dropzone > div");
+
+        var eventClear = function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+        };
+
+        dropzone.addEventListener("dragenter", eventClear, false);
+        dropzone.addEventListener("dragover", eventClear, false);
+
+        dropzone.addEventListener("drop", function (e) {
+            if(!e.dataTransfer.files) return;
+            e.stopPropagation();
+            e.preventDefault();
+
+            if(testFile(e.dataTransfer.files[0])) {
+                var fd = new FormData();
+                fd.append("csv_file", e.dataTransfer.files[0]);
+                //реализовать отправку файла
+            }
+        }, false);
+
+        var testFile = function(file) {
+            if (file.type.split("/")[0] != "image") {
+                console.log(file);
+                msgConteiner.innerHTML = "Недопустимый формат файла!";
+                return false;
+            }else {
+                return true;
+            }
+        };
+    </script>
 </div>
 
 <div class="poppup-back" ng-show="showPoppup"></div>
