@@ -49,6 +49,13 @@ img{
     background: azure;
     opacity: 0.2;
 }
+.new_block_backPl{
+    position: absolute;
+    border: 1px black dotted;
+    background: url("/public/img/back-pl-go.png");
+    background-size: 150px;
+    opacity: 0.4;
+}
 #game:not(.pointer)>.in_lvl {
     cursor: inherit !important;
 }

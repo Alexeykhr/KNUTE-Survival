@@ -245,6 +245,8 @@ module.controller('constr', ['$scope', '$http', function ($scope, $http) {
                 mouseDown = true;
 
                 if ($scope.remakeLvl=='addColl'){
+                    scrollLeft = $('#display').scrollLeft();
+                    scrollTop = $('#display').scrollTop();
                     posX = e.pageX - elem_left + scrollLeft;
                     posY = e.pageY - elem_top + scrollTop;
 
@@ -264,6 +266,17 @@ module.controller('constr', ['$scope', '$http', function ($scope, $http) {
 
                     $scope.remakeLvl = 'moveCollClick';
                     updateScope();
+                }
+                if ($scope.remakeLvl == 'addPlayer'){
+                    scrollLeft = $('#display').scrollLeft();
+                    scrollTop = $('#display').scrollTop();
+                    posX = e.pageX - elem_left + scrollLeft;
+                    posY = e.pageY - elem_top + scrollTop;
+
+                    $(this).append("<div class='new_block_backPl'></div>");
+                    res = $(".new_block_backPl");
+                    $(res).css('top', posY);
+                    $(res).css('left', posX);
                 }
             }
         });
@@ -300,6 +313,34 @@ module.controller('constr', ['$scope', '$http', function ($scope, $http) {
                         $(".new_block").height(0);
                     }
 
+                }
+                if($scope.remakeLvl = "addPlayer") {
+                    var posX2 = e2.pageX - elem_left + scrollLeft;
+                    var posY2 = e2.pageY - elem_top + scrollTop;
+                    if (posX2 > posX && posY2 < posY) {
+                        $(".new_block_backPl").width(posX2 - posX);
+                        $(".new_block_backPl").css('top', posY2);
+                        $(".new_block_backPl").css('left', posX);
+                        $(".new_block_backPl").height(posY - posY2);
+                    } else if (posX2 < posX && posY2 < posY) {
+                        $(".new_block_backPl").css('top', posY2);
+                        $(".new_block_backPl").css('left', posX2);
+                        $(".new_block_backPl").width(posX - posX2);
+                        $(".new_block_backPl").height(posY - posY2);
+                    } else if (posX2 < posX && posY2 > posY) {
+                        $(".new_block_backPl").css('left', posX2);
+                        $(".new_block_backPl").css('top', posY);
+                        $(".new_block_backPl").width(posX - posX2);
+                        $(".new_block_backPl").height(posY2 - posY);
+                    } else if (posX2 > posX && posY2 > posY) {
+                        $(".new_block_backPl").width(posX2 - posX);
+                        $(".new_block_backPl").height(posY2 - posY);
+                        $(".new_block_backPl").css('left', posX);
+                        $(".new_block_backPl").css('top', posY);
+                    } else {
+                        $(".new_block_backPl").width(0);
+                        $(".new_block_backPl").height(0);
+                    }
                 }
                 if ($scope.remakeLvl == 'moveCollClick'){
                     var posX2 = e2.pageX - elem_left + scrollLeft;
@@ -402,6 +443,29 @@ module.controller('constr', ['$scope', '$http', function ($scope, $http) {
                         }];
 
                     $(res).remove();
+                }
+                if ($scope.remakeLvl=='addPlayer'){
+                    var posX = $(res).css('left');
+                    var posY = $(res).css('top');
+
+                    // posX = posX.substr(0, posX.length - 2);
+                    // posY = posY.substr(0, posY.length - 2);
+                    // if($scope.map.collision != undefined)
+                    //     $scope.map.collision.push({
+                    //         "posX": Number(posX),
+                    //         "posY": Number(posY),
+                    //         "width": $(res).width(),
+                    //         "height": $(res).height()
+                    //     });
+                    // else
+                    //     $scope.map.collision = [{
+                    //         "posX": Number(posX),
+                    //         "posY": Number(posY),
+                    //         "width": $(res).width(),
+                    //         "height": $(res).height()
+                    //     }];
+                    //
+                    // $(res).remove();
                 }
                 if ($scope.remakeLvl == 'moveCollClick'){
                     $scope.remakeLvl = 'moveColl';
@@ -508,6 +572,15 @@ function Player(posX, posY, width, height, speed, rot) {
     this.speed = speed;
     this.rot = rot;
 }
+
+function GoToOtherLvl(posX, posY, width, height) {
+    this.posX = posX;
+    this.posY = posY;
+    this.width = width;
+    this.height = height;
+    this.gap = 20;
+}
+
 function parseLvl(xml) {
     var arr = {};
     arr.lvls = [];
