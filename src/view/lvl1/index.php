@@ -18,9 +18,9 @@
 <body ng-controller="mainCtrl" ng-keydown="keyDown($event)" ng-keyup="keyUp()" >
 
 <div class="wrap">
-    <header>
-        <div class="h_name"><i class="fa fa-user" aria-hidden="true"></i>
-            <span id="login">
+            <header>
+                <div class="h_name"><i class="fa fa-user" aria-hidden="true"></i>
+                    <span id="login">
                 <?= $user->login; ?>
             </span>
         </div>

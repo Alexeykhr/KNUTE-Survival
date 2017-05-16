@@ -421,7 +421,81 @@ module.controller('constr', ['$scope', '$http', function ($scope, $http) {
             document.cookie = "constructor=; path=/;";
             location.reload();
         });
+
+        $(".dropzone").on("click",function () {
+            $("#loadMap").click();
+        });
+
+        var files;
+
+        $('#loadMap').on("change", function(){
+            files = this.files;
+            $("#upload-image").submit();
+        });
+
+        $('#upload-image').on('submit',(function(e) {
+            var data = new FormData();
+            $.each( files, function( key, value ){
+                data.append( key, value );
+            });
+
+            sendImage(data, e)
+        }));
+
+        $(".dropzone").on('dragenter', function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+
+            $(".dropzone > div").text("Отпустите!");
+        });
+        $(".dropzone").on('dragover', function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+
+            $(".dropzone > div").text("Перетащите или кликните.");
+        });
+        $(".dropzone").on('drop', function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+            console.log(e);
+            if(!e.originalEvent.dataTransfer) return;
+
+            var re = /(.jpg|.jpeg|.bmp|.gif|.png)$/i;
+            if (!re.exec(e.originalEvent.dataTransfer.files[0].name)) {
+                $(".dropzone > div").text("Недопустимый формат файла!");
+            }else {
+               var fd = new FormData();
+               $.each(e.originalEvent.dataTransfer.files, function( key, value ){
+                   fd.append( key, value );
+               });
+               sendImage(fd, e);
+            }
+        });
     });
+
+    function sendImage(data, e) {
+        e.preventDefault();
+        e.preventDefault();
+
+        $.ajax({
+            type:'POST', // Тип запроса
+            url: '/src/controller/saveImg.php', // Скрипт обработчика
+            data: data, // Данные которые мы передаем
+            cache:false, // В запросах POST отключено по умолчанию, но перестрахуемся
+            contentType: false, // Тип кодирования данных мы задали в форме, это отключим
+            processData: false, // Отключаем, так как передаем файл
+            dataType: 'json',
+            success:function(data){
+                $(".dropzone > div").text("Файл успешно загружен!");
+                $scope.lvls_urls.push(data.files[0].split("lvl-maps\\")[1]);
+                console.log("its - >", data.files[0].split("lvl-maps\\")[1], "and", $scope.lvls_urls);
+                updateScope();
+            },
+            error:function(){
+                $(".dropzone > div").text("Произошла ошибка, повторите снова или перезагрузите страницу.");
+            }
+        });
+    }
 }]);
 
 function Player(posX, posY, width, height, speed, rot) {
