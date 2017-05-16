@@ -14,6 +14,7 @@ module.controller('constr', ['$scope', '$http', function ($scope, $http) {
     $scope.showPoppup = false;
     $scope.newLvl = false; //poppup
     $scope.showEditLvl = false; //poppup
+    $scope.showChangeMap = false; //poppup
     $scope.remakeLvl="";
     $scope.editcollisionind = 0;
     $scope.editcollision;

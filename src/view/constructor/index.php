@@ -33,9 +33,10 @@
         <input type="button" ng-click="showEditLvl = false;showPoppup = false;" value="Редактировать"/>
     </div>
 </div>
-<div class="poppup pop-changeMap" hidden>
+<div class="poppup pop-changeMap" ng-show="showChangeMap">
     <div class="pop-container">
-        <div class="img" ng-repeat="url in lvls_urls">
+        <input id="close-changemap-pop" type="button" ng-click="showPoppup = false; showChangeMap = false;" hidden/>
+        <div class="img" ng-repeat="url in lvls_urls" ng-click="map.map = url;" onclick="$('#close-changemap-pop').click()">
             <div>
                 <img src="/public/img/lvl-maps/{{url}}" alt="">
             </div>
@@ -82,7 +83,7 @@
             <button ng-click="showPoppup = true;showEditLvl = true;">Редактированть уровень</button>
             <button ng-click="delLvl()">Удалить уровень</button>
             <div class="cls"></div>
-            <input type="button" value="Выбрать мапу" ng-click="showPoppup = true;" onclick="$('.pop-changeMap').show();" />
+            <input type="button" value="Выбрать мапу" ng-click="showPoppup = true;showChangeMap = true;" />
         </div>
 
         <div class="colision-table">
